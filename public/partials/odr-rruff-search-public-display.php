@@ -28,7 +28,7 @@
             <a class="chemistry_lookup_link">lookup</a>
         </label>
         <input type="text" id="txt_chemistry_incl" name="txt_chemistry_incl" value="" size="30" maxlength="255">
-        <input type="text" id="chemistry_incl_txt">
+        <input type="hidden" id="chemistry_incl_txt">
     </div>
 
     <div class="input_wrapper">
@@ -36,7 +36,7 @@
             <a class="chemistry_lookup_link">lookup</a>
         </label>
         <input type="text" id="txt_chemistry_excl" name="txt_chemistry_excl" value="" size="30" maxlength="255">
-        <input type="text" id="chemistry_excl_txt">
+        <input type="hidden" id="chemistry_excl_txt">
     </div>
 
     <div class="input_wrapper">
