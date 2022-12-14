@@ -47,24 +47,104 @@
 				}
 
 				// Check if element is "selected"
-				if(!$(this).hasClass('excluded') && !$(this).hasClass('included')) {
-					$(this).addClass('included')
+				// !$("periodic_table_lanthanides").hasClass('included')
+
+				if(
+					$(this).hasClass("pt_lanthanides")
+					&& (
+						$("#periodic_table_lanthanides").hasClass('included')
+						|| $("#periodic_table_lanthanides").hasClass('excluded')
+					)
+				) {
+					return
 				}
-				else if($(this).hasClass('included')) {
-					$(this).removeClass('included')
-					$(this).addClass('excluded')
+				if(
+					$(this).hasClass("pt_actinides")
+					&& (
+						$("#periodic_table_actinides").hasClass('included')
+						|| $("#periodic_table_actinides").hasClass('excluded')
+					)
+				) {
+					alert('return')
+					return
 				}
-				else if($(this).hasClass('excluded')) {
-					$(this).removeClass('excluded')
+
+				// Deal with lanthanides & actinides
+				let element = $(this).attr('id').replace('periodic_table_','');
+
+				if(
+					element === 'lanthanides'
+					&& (
+						(
+							!$(this).hasClass("included")
+							&& !$(this).hasClass("excluded")
+							&& !$(".pt_lanthanides").hasClass('included') // .length === 0
+							&& !$(".pt_lanthanides").hasClass('excluded') // .length === 0
+						)
+						|| (
+							$(this).hasClass("included")
+							&& $(".pt_lanthanides").hasClass('included')
+						)
+						|| (
+							$(this).hasClass("excluded")
+							&& $(".pt_lanthanides").hasClass('excluded')
+						)
+					)
+				) {
+					setInclExcl(this)
+					$(".pt_lanthanides").each(
+						function() {
+							setInclExcl(this)
+						}
+					)
+				}
+				else if(
+					element === 'actinides'
+					&& (
+						(
+							!$(this).hasClass("included")
+							&& !$(this).hasClass("excluded")
+							&& !$(".pt_actinides").hasClass('included') // .length === 0
+							&& !$(".pt_actinides").hasClass('excluded') // .length === 0
+						)
+						|| (
+							$(this).hasClass("included")
+							&& $(".pt_actinides").hasClass('included')
+						)
+						|| (
+							$(this).hasClass("excluded")
+							&& $(".pt_actinides").hasClass('excluded')
+						)
+					)
+				) {
+					setInclExcl(this)
+					$(".pt_actinides").each(
+						function() {
+							setInclExcl(this)
+						}
+					)
+				}
+				else if (
+					element !== 'actinides'
+					&& element !== 'lanthanides'
+				) {
+					setInclExcl(this)
 				}
 
 				setChemistryFields();
 			}
 		);
 
-		$("#display-element-chooser").click(
-			() => {
-				$("#div_periodic_table").slideToggle('300')
+		$(".chemistry_lookup_link").click(
+			function() {
+				$("#div_periodic_table").slideToggle('300',
+					function() {
+						if($("#div_periodic_table:visible") && $(window).width() < 600) {
+							$('html, body').animate({
+								scrollTop: ($("#div_periodic_table").offset().top - 110)
+							}, 2000);
+						}
+					})
 			}
 		);
 
@@ -98,32 +178,118 @@
 		);
 	});
 
+	function setInclExcl(obj) {
+		// Check if element is "selected"
+		if(!$(obj).hasClass('excluded') && !$(obj).hasClass('included')) {
+			$(obj).addClass('included')
+		}
+		else if($(obj).hasClass('included')) {
+			$(obj).removeClass('included')
+			$(obj).addClass('excluded')
+		}
+		else if($(obj).hasClass('excluded')) {
+			$(obj).removeClass('excluded')
+		}
+	}
+
 	function setChemistryFields() {
 
-		// Determine included and excluded
+			// Determine included and excluded
 		let incl_val = ''
+		let txt_incl_val = ''
 		$(".included").each(
 			function() {
 				let element = $(this).attr('id').replace('periodic_table_','');
-				if(incl_val !== '') {
-					incl_val += ", "
+				if(
+					element !== "lanthanides"
+					&& element !== "actinides"
+				) {
+					if(incl_val !== '') {
+						incl_val += ", "
+					}
+					incl_val += element;
 				}
-				incl_val += element;
+				if(
+					!$(this).hasClass('pt_lanthanides')
+					&& !$(this).hasClass('pt_actinides')
+				) {
+					if (txt_incl_val !== '') {
+						txt_incl_val += ", "
+					}
+					txt_incl_val += element;
+				}
+				else if(
+					$(this).hasClass('pt_lanthanides')
+					&& !$("#periodic_table_lanthanides").hasClass('included')
+					&& !$("#periodic_table_lanthanides").hasClass('excluded')
+				) {
+					if (txt_incl_val !== '') {
+						txt_incl_val += ", "
+					}
+					txt_incl_val += element;
+				}
+				else if(
+					$(this).hasClass('pt_actinides')
+					&& !$("#periodic_table_actinides").hasClass('included')
+					&& !$("#periodic_table_actinides").hasClass('excluded')
+				) {
+					if (txt_incl_val !== '') {
+						txt_incl_val += ", "
+					}
+					txt_incl_val += element;
+				}
 			}
 		)
-		$("#txt_chemistry_incl").val(incl_val)
+		$("#chemistry_incl_txt").val(incl_val)
+		$("#txt_chemistry_incl").val(txt_incl_val)
 
 		let excl_val = ''
+		let txt_excl_val = ''
 		$(".excluded").each(
 			function() {
-				let element = $(this).attr('id').replace('periodic_table_','');
-				if(excl_val !== '') {
-					excl_val += ", "
+				let element = $(this).attr('id').replace('periodic_table_', '');
+				if(
+					element !== "lanthanides"
+					&& element !== "actinides"
+				) {
+					if (excl_val !== '') {
+						excl_val += ", "
+					}
+					excl_val += element;
 				}
-				excl_val += element;
+				if(
+					!$(this).hasClass('pt_lanthanides')
+					&& !$(this).hasClass('pt_actinides')
+				) {
+					if (txt_excl_val !== '') {
+						txt_excl_val += ", "
+					}
+					txt_excl_val += element;
+				}
+				else if(
+					$(this).hasClass('pt_lanthanides')
+					&& !$("#periodic_table_lanthanides").hasClass('included')
+					&& !$("#periodic_table_lanthanides").hasClass('excluded')
+				) {
+					if (txt_excl_val !== '') {
+						txt_excl_val += ", "
+					}
+					txt_excl_val += element;
+				}
+				else if(
+					$(this).hasClass('pt_actinides')
+					&& !$("#periodic_table_actinides").hasClass('included')
+					&& !$("#periodic_table_actinides").hasClass('excluded')
+				) {
+					if (txt_excl_val !== '') {
+						txt_excl_val += ", "
+					}
+					txt_excl_val += element;
+				}
 			}
 		)
-		$("#txt_chemistry_excl").val(excl_val)
+		$("#chemistry_excl_txt").val(excl_val)
+		$("#txt_chemistry_excl").val(txt_excl_val)
 	}
 
 })( jQuery );

@@ -39,11 +39,178 @@ th.search_form {
 /************************************
 Search Form Definitions
 ************************************/
+#rruff-search-form {
+    padding: 12px 12px 12px 12px;
+    background-color: rgba(0, 0, 0, 0.20);
+    border: none;
+    color: #ffffff;
+    border-radius: 18px;
+    width: 600px;
+    margin-bottom: 30px;
+}
+
+.input_wrapper {
+    padding: 0 0 10px 0;
+}
+
+.first_input {
+    padding-top: 12px;
+}
+
+.submit_wrapper {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chemistry_lookup_link {
+    line-height: 20px;
+    display: block;
+}
+
+
+label > a:visited,
+label > a:active,
+label > a:focus,
+label > a:hover,
+label > a {
+    color: #a0ffa0 !important;
+}
+
+.search_form label {
+    vertical-align: middle;
+    line-height: 20px;
+    display: inline-block;
+    min-width: 200px;
+    margin-right: 12px;
+    font-weight: bold;
+    text-align: right;
+}
+@media screen and (max-width: 460px) {
+
+    /* Deal with Elementor Padding Issues */
+    .elementor-top-section {
+        padding: 20px 0px 0px 0px !important;
+    }
+    .elementor-top-section .elementor-widget-container {
+        margin: 0 0 30px 0 !important;
+    }
+    /* END Deal with Elementor Padding Issues */
+
+
+    #rruff-periodic-table {
+        transform-origin: left top;
+        transform: scale(0.7);
+        margin-left: calc(16px + (100% - 360px)/2);
+        margin-bottom: -100px;
+        /*
+        margin-left: -10px;
+        padding-left: 0;
+        */
+        /* left: calc(-50px + (100% - 360px)/2); */
+    }
+
+
+    #rruff-search-form {
+        padding-left: 40px;
+        padding-right: 20px;
+        width: 360px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .input_wrapper {
+        padding: 0 0 4px 0;
+    }
+
+    .submit_wrapper {
+        padding-top: 8px;
+    }
+
+    .chemistry_lookup_link {
+        line-height: 12px;
+        display: inline-block;
+        margin-left: 60px;
+    }
+
+    .search_form label {
+        vertical-align: middle;
+        line-height: 20px;
+        width: 100%;
+        display: inline-block;
+        margin-right: 12px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+}
+
+/* Designing for 380px min width */
+@media screen and (min-width: 461px) and (max-width: 688px) {
+    /* Deal with Elementor Padding Issues */
+    .elementor-top-section {
+        padding: 20px 0px 0px 0px !important;
+    }
+    .elementor-top-section .elementor-widget-container {
+        margin: 0 0 30px 0 !important;
+    }
+    /* END Deal with Elementor Padding Issues */
+
+    /* Ensure Periodic Table is Scaled to 90% of Screen Width */
+    #rruff-periodic-table {
+        /* transform-origin: left top; */
+        transform: scale(0.8);
+        position: relative;
+        top: 0;
+        /* left: -42px; */
+    }
+    /*
+    #div_periodic_table {
+        transform: scale(0.8);
+    }
+
+     */
+
+    #rruff-search-form {
+        padding-left: 40px;
+        padding-right: 20px;
+        width: 360px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .input_wrapper {
+        padding: 0 0 4px 0;
+    }
+
+    .submit_wrapper {
+        padding-top: 8px;
+    }
+
+    .chemistry_lookup_link {
+        line-height: 12px;
+        display: inline-block;
+        margin-left: 60px;
+    }
+
+    .search_form label {
+        vertical-align: middle;
+        line-height: 20px;
+        width: 100%;
+        display: inline-block;
+        margin-right: 12px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+}
+
+
 table.search_form {
     background-color: rgba(0, 0, 0, 0.20);
     border: none;
     color: #ffffff;
     border-radius: 18px;
+    width: 600px;
 }
 
 table.search_form td,
@@ -70,27 +237,100 @@ table.search_form th {
     padding: 0 0 0 0 !important;
 }
 
+.pt_alkali_metals {
+    text-align:center; cursor: pointer;  background:#ffbbdd;
+}
+
+.pt_alkaline_earth_metals {
+    text-align:center; cursor: pointer;  background:#ffdead;
+}
+
+.pt_metalloid {
+    text-align:center; cursor: pointer;  background:#cccc99;
+}
+
+.pt_nonmetal {
+    text-align:center; cursor: pointer;  background:#a0ffa0;
+}
+
+.pt_noble_gases {
+    text-align:center; cursor: pointer;  background:#c0ffff;
+}
+
+.pt_halides {
+    text-align:center; cursor: pointer;  background:#ffff99;
+}
+
+.pt_transition_metals {
+    text-align:center; cursor: pointer;  background:#ffc0c0;
+}
+
+.pt_lanthanides {
+    text-align:center; cursor: pointer;  background:#ffb888;
+}
+
+.pt_actinides {
+    text-align:center; cursor: pointer;  background:#ff99cc;
+}
+
 .periodic_table {
     margin: 1px 1px 1px 1px;
+    font-weight: normal;
     border: 2px solid rgba(255,255,255,0.4);
+    -webkit-transition : font-weight 500ms ease-out;
+    -moz-transition : font-weight 500ms ease-out;
+    -o-transition : font-weight 500ms ease-out;
+    transition : font-weight 500ms ease-out;
+    -webkit-transition : color 500ms ease-out;
+    -moz-transition : color 500ms ease-out;
+    -o-transition : color 500ms ease-out;
+    transition : color 500ms ease-out;
+    -webkit-transition : border 500ms ease-out;
+    -moz-transition : border 500ms ease-out;
+    -o-transition : border 500ms ease-out;
+    transition : border 500ms ease-out;
 }
 
 .included {
     border: 2px solid rgba(0,0,255,0.8);
     font-weight: bold;
     color: blue;
+    -webkit-transition : font-weight 500ms ease-out;
+    -moz-transition : font-weight 500ms ease-out;
+    -o-transition : font-weight 500ms ease-out;
+    transition : font-weight 500ms ease-out;
+    -webkit-transition : color 500ms ease-out;
+    -moz-transition : color 500ms ease-out;
+    -o-transition : color 500ms ease-out;
+    transition : color 500ms ease-out;
+    -webkit-transition : border 500ms ease-out;
+    -moz-transition : border 500ms ease-out;
+    -o-transition : border 500ms ease-out;
+    transition : border 500ms ease-out;
 }
 
 .excluded {
     border: 2px solid rgba(255,0,0,0.8);
     font-weight: bold;
     color: red;
+    -webkit-transition : font-weight 500ms ease-out;
+    -moz-transition : font-weight 500ms ease-out;
+    -o-transition : font-weight 500ms ease-out;
+    transition : font-weight 500ms ease-out;
+    -webkit-transition : color 500ms ease-out;
+    -moz-transition : color 500ms ease-out;
+    -o-transition : color 500ms ease-out;
+    transition : color 500ms ease-out;
+    -webkit-transition : border 500ms ease-in;
+    -moz-transition : border 500ms ease-in;
+    -o-transition : border 500ms ease-in;
+    transition : border 500ms ease-in;
 }
 
-#\#periodic_table_instructions,
+#periodic_table_instructions,
 #periodic_table_lanthanides_alt,
 #periodic_table_actinides_alt {
     border: none;
     font-weight: bold;
-    color: rgba(255,255,2555, 0.8);
+    color: rgba(255,255,255, 0.8) !important;
 }
