@@ -2,3 +2,95 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+/************************************
+  Search Form Definitions
+************************************/
+
+table.search_form {
+  padding: 12px 6px;
+}
+
+th.search_form {
+    vertical-align: middle;
+    text-align: right;
+}
+
+#searchbutton input {
+    font-size: 1.2em;
+}
+
+#searchResults {
+    /* text-decoration: underline; */
+}
+
+#element_chooser {
+    visibility:hidden;
+}
+#element_chooser_holder {
+    visibility:hidden;
+}
+
+#frm_search_results tr td {
+    font-size: 1em;
+}
+
+
+/************************************
+Search Form Definitions
+************************************/
+table.search_form {
+    background-color: rgba(0, 0, 0, 0.20);
+    border: none;
+    color: #ffffff;
+    border-radius: 18px;
+}
+
+table.search_form td,
+table.search_form th {
+   border: none;
+}
+
+#searchResults  {
+    color: #a1c2e3;
+}
+
+#div_periodic_table {
+   display: none;
+}
+
+#rruff-periodic-table {
+    background-color: rgba(220,220,220, 0.0);
+    border: none;
+}
+
+#rruff-periodic-table td,
+#rruff-periodic-table td {
+    border: none;
+    padding: 0 0 0 0 !important;
+}
+
+.periodic_table {
+    margin: 1px 1px 1px 1px;
+    border: 2px solid rgba(255,255,255,0.4);
+}
+
+.included {
+    border: 2px solid rgba(0,0,255,0.8);
+    font-weight: bold;
+    color: blue;
+}
+
+.excluded {
+    border: 2px solid rgba(255,0,0,0.8);
+    font-weight: bold;
+    color: red;
+}
+
+#\#periodic_table_instructions,
+#periodic_table_lanthanides_alt,
+#periodic_table_actinides_alt {
+    border: none;
+    font-weight: bold;
+    color: rgba(255,255,2555, 0.8);
+}

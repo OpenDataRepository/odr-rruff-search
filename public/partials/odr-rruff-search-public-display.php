@@ -13,9 +13,8 @@
  */
 ?>
 
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->
 
-<table align="center" class="search_form" width="600">
+<table align="center" id="rruff-search-form" class="search_form" width="600">
     <tbody><tr>
         <td></td>
         <th class="search_form" valign="top">Mineral:</th>
@@ -26,8 +25,8 @@
                 Multiple mineral search.<br>(Press "reset" for new search.)<br>
             </div>
             <div id="single_mineral_search">
-                <input type="text" id="txt_mineral" name="txt_mineral" value="" size="40" maxlength="255">
-                <a class="page_link_1" href="Javascript:MM_openBrWindow('https://rruff.info/index.php/r=lookup_minerals/calling_form=frm_sample_search/name_field=txt_mineral','MineralLookup','scrollbars=yes,width=800,height=600')">lookup</a>
+                <input type="text" id="txt_mineral" name="txt_mineral" value="" size="30" maxlength="255">
+                <!-- <a class="page_link_1" href="Javascript:MM_openBrWindow('https://rruff.info/index.php/r=lookup_minerals/calling_form=frm_sample_search/name_field=txt_mineral','MineralLookup','scrollbars=yes,width=800,height=600')">lookup</a> -->
             </div>
         </td>
     </tr>
@@ -37,18 +36,8 @@
         </td>
         <th class="search_form">Chemistry Includes:</th>
         <td>
-            <script type="text/javascript">
-                function displayElementChooser() {
-                    if(!$('div_periodic_table_contents').innerHTML.match(/Chemistry/)) {
-                        retrieveURL('https://rruff.info/index.php/r=element_chooser','div_periodic_table_contents','GET');
-                    }
-                    setTimeout("checkFormElements();","500");
-                    setTimeout("initPeriodicTable('searchChem');","500");
-                    new Effect.toggle('div_periodic_table','blind');
-                }
-            </script>
-            <input type="text" id="txt_chemistry_incl" name="txt_chemistry_incl" value="" size="40" maxlength="255">
-            <a class="page_link_1" href="#" onclick="displayElementChooser();return false;">lookup</a>
+            <input type="text" id="txt_chemistry_incl" name="txt_chemistry_incl" value="" size="30" maxlength="255">
+            <a id="display-element-chooser" class="page_link_1" href="#">lookup</a>
         </td>
     </tr>
     <tr>
@@ -57,7 +46,7 @@
         </td>
         <th class="search_form">Chemistry Excludes:</th>
         <td>
-            <input type="text" id="txt_chemistry_excl" name="txt_chemistry_excl" value="" size="40" maxlength="255">
+            <input type="text" id="txt_chemistry_excl" name="txt_chemistry_excl" value="" size="30" maxlength="255">
         </td>
     </tr>
     <tr>
@@ -66,7 +55,7 @@
         </td>
         <th class="search_form">General:</th>
         <td>
-            <input type="text" name="txt_general" value="" size="40" maxlength="255">
+            <input type="text" name="txt_general" value="" size="30" maxlength="255">
         </td>
         <td>&nbsp;</td>
     </tr>
@@ -98,12 +87,12 @@
             <input type="hidden" name="r" value="sample_search">&nbsp;
 
             <input type="hidden" name="new_sample_search" value="1">&nbsp;
-            <input type="submit" value="search">&nbsp;
+            <input id="rruff-search-form-submit" type="submit" value="search">&nbsp;
             <input type="button" name="rset_sample_search" value="reset" onclick="javascript:clearElements('periodic_table', this.form.name);reset_button(this.form);">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="page_link_1" href="#" onclick="new Effect.toggle('div_display_options','blind');return false;">display options</a>
+            <!-- <a class="page_link_1" href="#" onclick="new Effect.toggle('div_display_options','blind');return false;">display options</a> -->
         </td>
     </tr>
-    <tr>
+    <!-- <tr>
         <td colspan="3">
             <div id="div_display_options" style="overflow: visible;">
                 <div id="div_display_options_contents" style="padding-top: 10px;">
@@ -149,15 +138,16 @@
                 </div>
             </div>
         </td>
-    </tr>
+    </tr> -->
     </tbody>
 </table>
 
 <div id="div_periodic_table" style="overflow: visible;">
-    <div id="div_periodic_table_contents" style="min-height: 200px; padding-top: 10px;"><table border="0" cellpadding="0" cellspacing="0" align="center">
+    <div id="div_periodic_table_contents" style="min-height: 200px; padding-top: 10px;">
+        <table border="0" cellpadding="0" cellspacing="0" align="center" id="rruff-periodic-table">
             <tbody><tr>
                 <td><div style="display: block; text-align:center; cursor: pointer;  background:#a0ffa0;" class="periodic_table chem_ele_unselected" id="periodic_table_H">H</div></td>
-                <td colspan="16" align="center">Click an element once to include, twice to exclude.</td>
+                <td colspan="16" align="center" id="#periodic_table_instructions">Click an element once to include, twice to exclude.</td>
                 <td><div style="text-align:center; cursor: pointer;  background:#c0ffff;" class="periodic_table chem_ele_unselected" id="periodic_table_He">He</div></td>
             </tr>
             <tr>

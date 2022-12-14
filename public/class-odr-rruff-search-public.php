@@ -73,7 +73,9 @@ class Odr_Rruff_Search_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/odr-rruff-search-public.css', array(), $this->version, 'all' );
+        add_shortcode('odr-rruff-search-display', array($this, 'odr_render_html'));
+
+        wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/odr-rruff-search-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -104,6 +106,8 @@ class Odr_Rruff_Search_Public {
      * Include the HTML and output it to the screen
      */
 	public function odr_render_html() {
-        return plugin_dir_url( __FILE__ ) . 'partials/odr-rruff-search-public.js';
+	    // print plugin_dir_url(__FILE__); exit();
+        // return plugin_dir_url( __FILE__ ) . 'partials/odr-rruff-search-public-display.php';
+        include_once('partials/odr-rruff-search-public-display.php');
     }
 }
