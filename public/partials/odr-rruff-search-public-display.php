@@ -270,8 +270,9 @@
                 <td class="pt_actinides periodic_table chem_ele_unselected" id="periodic_table_No" >102<br />No</div></td>
                 <td class="pt_actinides periodic_table chem_ele_unselected" id="periodic_table_Lr" >103<br />Lr</div></td> -->
             </tr>
-            </tbody></table>
-        <br><p></p></div>
+            </tbody>
+        </table>
+   </div>
 </div>
 
 <center><a href="#" onclick="new Effect.toggle('disclaimer','blind'); return false;">Terms and Conditions</a></center>

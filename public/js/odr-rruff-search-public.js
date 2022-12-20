@@ -65,7 +65,6 @@
 						|| $("#periodic_table_actinides").hasClass('excluded')
 					)
 				) {
-					alert('return')
 					return
 				}
 
