@@ -8,8 +8,75 @@
 ************************************/
 
 table.search_form {
-  padding: 12px 6px;
+    padding: 12px 6px;
 }
+
+.search_form input[type=email],
+.search_form input[type=number],
+.search_form input[type=password],
+.search_form input[type=reset],
+.search_form input[type=search],
+.search_form input[type=tel],
+.search_form input[type=text],
+.search_form input[type=url],
+.search_form select,
+.search_form textarea {
+    padding: 0.25em 0.25em 0.25em 0.25em;
+    font-size: 13px;
+}
+
+
+.search_form input[type=button],
+.search_form input[type=submit] {
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    margin-right: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 0;
+    position: relative;
+    background-color: rgba(82, 171, 117, 1.0);
+    color:rgb(255,255,255);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+
+
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    text-shadow:0px 1px 0px rgba(0,0,0,0.5);
+    -ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ff123852,Positive=true)";zoom:1;
+    filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ff123852,Positive=true);
+
+    -moz-box-shadow:0px 2px 2px rgba(0,0,0,0.2);
+    -webkit-box-shadow:0px 2px 2px rgba(0,0,0,0.2);
+    box-shadow:0px 2px 2px rgba(0,0,0,0.2);
+    -ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=2,Color=#33000000,Positive=true)";
+    filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=2,Color=#33000000,Positive=true);
+}
+
+.search_form input[type=button]:active,
+.search_form input[type=submit]:active {
+    margin-top: 2px;
+    margin-bottom: 13px;
+
+    -moz-box-shadow:0px 1px 0px rgba(255,255,255,0.5);
+    -webkit-box-shadow:0px 1px 0px rgba(255,255,255,0.5);
+    box-shadow:0px 1px 0px rgba(255,255,255,0.5);
+    -ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ccffffff,Positive=true)";
+    filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ccffffff,Positive=true);
+}
+
+.search_form input[type=button]:disabled,
+.search_form input[type=submit]:disabled {
+    background-color: rgba(82, 171, 117, 0.4);
+}
+
+
+
 
 th.search_form {
     vertical-align: middle;
@@ -82,6 +149,7 @@ label > a {
     display: inline-block;
     min-width: 200px;
     margin-right: 12px;
+    font-size: 14px;
     font-weight: bold;
     text-align: right;
 }
