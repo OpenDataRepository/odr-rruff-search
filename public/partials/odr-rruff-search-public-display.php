@@ -41,20 +41,20 @@
 
     <div class="input_wrapper">
         <label for="txt_general">General:</label>
-        <input type="text" name="txt_general" value="" size="30" maxlength="255">
+        <input type="text" id="txt_general" name="txt_general" value="" size="30" maxlength="255">
     </div>
 
 
     <div class="input_wrapper">
         <label for="sel_sort">Sort By:</label>
-        <select name="sel_sort" size="1">
-            <option value="name">Names</option>
-            <option value="rruff_id">RRUFF ID</option>
+        <select name="sel_sort" id="sel_sort" size="1">
+            <option value="18">Names</option>
+            <option value="34">RRUFF ID</option>
             <option value="chemistry">Ideal Chemistry</option>
             <option value="source">Source</option>
             <option value="locality">Locality</option>
         </select>
-        <select name="sel_sort_dir" size="1">
+        <select name="sel_sort_dir" id="sel_sort_dir" size="1">
             <option value="asc">asc</option>
             <option value="desc">desc</option>
         </select>

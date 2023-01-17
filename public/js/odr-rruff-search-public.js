@@ -148,31 +148,83 @@
 		);
 
 		$("#rruff-search-form-submit").click(
+			// Use BtoA to encode
+
 			function() {
+				// UnicodeDecodeB64("JUUyJTlDJTkzJTIwJUMzJUEwJTIwbGElMjBtb2Rl"); // "✓ à la mode"
 				// Get mineral names or RRUFF IDS from txt_mineral
+				let search_json = {
+					"dt_id": "3"
+				};
 				if($("#txt_mineral").val().trim().match(/^R\d{6}$/i)) {
 					// display specific mineral id
 					// {"dt_id":"3","34":"r040034"}
+					search_json["34"] = $("#txt_mineral").val().trim();
 				}
 				else if($("#txt_mineral").val().trim() !== '') {
 					// Check for commas (separated minerals)
 					// search for IMA Mineral Display Name
 					// {"dt_id":"3","18":"actinolite"}
+					search_json["18"] = $("#txt_mineral").val().trim();
 				}
 
 				// Get General Text search field
-				// {"dt_id":"3","gen":"quartz"}
+				if($("#txt_general").val().trim() !== '') {
+					// {"dt_id":"3","gen":"quartz"}
+					search_json["gen"] = $("#txt_general").val().trim();
+				}
 
 				// Get chemistry includes
-				// {"dt_id":"3","21":"C"}
+				if($("#chemistry_incl_txt").val()) {
+					// {"dt_id":"3","21":"C"}
+					search_json["21"] = $("#chemistry_incl_txt").val().trim().replace(/,/,' ');
+				}
 
 				// Get chemistry excludes
-				// {"dt_id":"3","21":"!Ni"}
-				// {"dt_id":"3","21":"!Ni,!O"}
+				if($("#chemistry_excl_txt").val()) {
+					// {"dt_id":"3","21":"!Ni"}
+					// {"dt_id":"3","21":"!Ni,!O"}
+					if(search_json["21"]) {
+						search_json["21"] += ' ';
+						$("#chemistry_excl_txt").val().split(/,/).forEach(
+							function(item) {
+								search_json["21"] += '!' + item.trim() + ' ';
+							}
+						);
+					}
+					else {
+						$("#chemistry_excl_txt").val().split(/,/).forEach(
+							function(item) {
+								search_json["21"] += '!' + item.trim() + ' ';
+							}
+						);
+					}
+				}
+
+				/*
+					$criteria['sort_by'] = array(
+                    	'sort_dir' => $sort_dir,
+                    	'sort_df_id' => $sort_df_id
+                	);
+				 */
 
 				// Get sort
+				if(
+					$('#sel_sort').find(':selected').val()
+					&& $('#sel_sort_dir').find(':selected').val()
+				) {
+					search_json['sort_by'] = { };
+					search_json['sort_by']['sort_df_id'] = $('#sel_sort').find(':selected').val();
+					search_json['sort_by']['sort_dir'] = $('#sel_sort_dir').find(':selected').val();
+				}
 
 				// Encode to base 64 - atob()
+			    let search_string = b64EncodeUnicode(JSON.stringify(search_json)); // "JUUyJTlDJTkzJTIwJUMzJUEwJTIwbGElMjBtb2Rl"
+				search_string = search_string.replace(/==$/, '');
+				search_string = search_string.replace(/=$/, '');
+				// https://beta.rruff.net/odr/rruff_samples#/odr/search/display/7/eyJkdF9pZCI6IjMifQ/1
+				let redirect =  "/odr/rruff_samples#/odr/search/display/7/" + search_string + "/1";
+				window.location = redirect
 			}
 		);
 	});
@@ -292,3 +344,11 @@
 	}
 
 })( jQuery );
+
+function b64EncodeUnicode(str) {
+	return btoa(str);
+}
+
+function UnicodeDecodeB64(str) {
+	return decodeURIComponent(atob(str));
+}
