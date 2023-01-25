@@ -106,9 +106,22 @@ class Odr_Rruff_Search_Public {
 	/**
      * Include the HTML and output it to the screen
      */
-	public function odr_render_html() {
-	    // print plugin_dir_url(__FILE__); exit();
-        // return plugin_dir_url( __FILE__ ) . 'partials/odr-rruff-search-public-display.php';
+	public function odr_render_html($attributes = [], $content = null, $tag = '') {
+
+        $attributes = array_change_key_case( (array) $attributes, CASE_LOWER );
+
+        // override default attributes with user attributes
+        $odr_rruff_search_vars = shortcode_atts(
+            array(
+                'redirect_url' => '/odr/rruff_samples#/odr/search/display/7',
+                datatype_id => "3",
+                general_search => "gen",
+                chemistry_incl => "21",
+                mineral_name => "18",
+                sample_id => "34"
+            ), $attributes, $tag
+        );
+
         wp_enqueue_style( $this->plugin_name . '-style');
         wp_enqueue_script( $this->plugin_name . '-js');
 

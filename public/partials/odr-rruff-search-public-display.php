@@ -11,7 +11,27 @@
  * @package    Odr_Rruff_Search
  * @subpackage Odr_Rruff_Search/public/partials
  */
+
+/*
+    datatype_id = "3"
+    general_search = "gen"
+    chemistry_incl = "21"
+    mineral_name = "18"
+    sample_id = "34"
+    redirect_url = "/odr/rruff_samples#/odr/search/display/7"
+*/
+
 ?>
+
+<script type="text/javascript">
+    // Declar variables for Search JS
+    let datatype_id = "<?php echo $odr_rruff_search_vars['datatype_id']; ?>";
+    let general_search = "<?php echo $odr_rruff_search_vars['general_search']; ?>";
+    let chemistry_incl = "<?php echo $odr_rruff_search_vars['chemistry_incl']; ?>";
+    let mineral_name = "<?php echo $odr_rruff_search_vars['mineral_name']; ?>";
+    let sample_id = "<?php echo $odr_rruff_search_vars['sample_id']; ?>";
+    let redirect_url = "<?php echo $odr_rruff_search_vars['redirect_url']; ?>";
+</script>
 
 
 <div id="rruff-search-form" class="search_form">
@@ -63,7 +83,7 @@
     <div class="input_wrapper submit_wrapper">
         <label for="submit"></label>
         <input id="rruff-search-form-submit" name="submit" type="submit" value="search">&nbsp;
-        <input type="button" name="reset_sample_search" value="reset" onclick>
+        <input id="reset_sample_search" type="button" name="reset_sample_search" value="reset">
         <!-- <a class="page_link_1" href="#" onclick="new Effect.toggle('div_display_options','blind');return false;">display options</a> -->
     </div>
 </div>

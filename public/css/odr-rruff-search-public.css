@@ -58,6 +58,7 @@ table.search_form {
     filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=2,Color=#33000000,Positive=true);
 }
 
+/*
 .search_form input[type=button]:active,
 .search_form input[type=submit]:active {
     margin-top: 2px;
@@ -69,6 +70,7 @@ table.search_form {
     -ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ccffffff,Positive=true)";
     filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ccffffff,Positive=true);
 }
+ */
 
 .search_form input[type=button]:disabled,
 .search_form input[type=submit]:disabled {
