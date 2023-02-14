@@ -125,6 +125,10 @@ class Odr_Rruff_Search_Public {
         wp_enqueue_style( $this->plugin_name . '-style');
         wp_enqueue_script( $this->plugin_name . '-js');
 
+        ob_start();
         include_once('partials/odr-rruff-search-public-display.php');
+        $search_block = ob_get_contents();
+        ob_end_clean();
+        return $search_block;
     }
 }
