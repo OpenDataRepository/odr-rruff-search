@@ -7,6 +7,24 @@
   Search Form Definitions
 ************************************/
 
+#odr_rruff_search_dialog {
+    margin-top: 160px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#ODRMainMenu {
+    position: absolute;
+    top: 100px;
+    width: 100%;
+}
+
+.display-options-list {
+    list-style-type: none;
+    margin-left: 18px;
+    width: 100%;
+}
+
 table.search_form {
     padding: 12px 6px;
 }
@@ -116,6 +134,20 @@ Search Form Definitions
     border-radius: 18px;
     width: 600px;
     margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (min-width: 1024px) {
+    .summary-search-form {
+        width: 900px !important;
+    }
+
+    .summary-submit-block {
+        float: right;
+        margin-top: -34px;
+        margin-right: 18px !important;
+    }
 }
 
 .input_wrapper {
@@ -143,6 +175,10 @@ label > a:focus,
 label > a:hover,
 label > a {
     color: #a0ffa0 !important;
+}
+
+.hidden {
+    display: none;
 }
 
 .search_form label {
@@ -293,6 +329,9 @@ table.search_form th {
 }
 
 #div_periodic_table {
+   max-width: 740px;
+   margin-left: auto;
+   margin-right: auto;
    display: none;
 }
 

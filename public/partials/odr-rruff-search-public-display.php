@@ -13,29 +13,48 @@
  */
 
 /*
-    datatype_id = "3"
-    general_search = "gen"
-    chemistry_incl = "21"
-    mineral_name = "18"
-    sample_id = "34"
-    redirect_url = "/odr/rruff_samples#/odr/search/display/7"
+    [
+        odr-rruff-search-display datatype_id = "738"
+        general_search = "gen"
+        chemistry_incl = "7055"
+        mineral_name = "7052"
+        sample_id = "7069"
+        default_search = "2229"
+        search_pictures = "2010"
+        search_spectra = "111"
+        redirect_url = "/odr/rruff_sample#/odr/search/display"
+    ]
 */
+
+// print_r($options); exit();
 
 ?>
 
 <script type="text/javascript">
-    // Declar variables for Search JS
-    let datatype_id = "<?php echo $odr_rruff_search_vars['datatype_id']; ?>";
-    let general_search = "<?php echo $odr_rruff_search_vars['general_search']; ?>";
-    let chemistry_incl = "<?php echo $odr_rruff_search_vars['chemistry_incl']; ?>";
-    let mineral_name = "<?php echo $odr_rruff_search_vars['mineral_name']; ?>";
-    let sample_id = "<?php echo $odr_rruff_search_vars['sample_id']; ?>";
-    let redirect_url = "<?php echo $odr_rruff_search_vars['redirect_url']; ?>";
+    // Declare variables for Search JS
+    let search_options = [];
+    search_options['datatype_id'] = "<?php echo $odr_search_plugin_options['datatype_id']; ?>";
+    search_options['general_search'] = "<?php echo $odr_search_plugin_options['general_search']; ?>";
+    search_options['chemistry_incl'] = "<?php echo $odr_search_plugin_options['chemistry_incl']; ?>";
+    search_options['mineral_name'] = "<?php echo $odr_search_plugin_options['mineral_name']; ?>";
+    search_options['sample_id'] = "<?php echo $odr_search_plugin_options['sample_id']; ?>";
+    search_options['rruff_id'] = "<?php echo $odr_search_plugin_options['rruff_id']; ?>";
+    search_options['redirect_url'] = "<?php echo $odr_search_plugin_options['redirect_url']; ?>";
+    search_options['default_search'] = "<?php echo $odr_search_plugin_options['default_search']; ?>";
+    search_options['search_pictures'] = "<?php echo $odr_search_plugin_options['search_pictures']; ?>";
+    search_options['search_spectra'] = "<?php echo $odr_search_plugin_options['search_spectra']; ?>";
 </script>
 
 
+<!-- form id="rruff-search-form-wrapper" -->
 <div id="rruff-search-form" class="search_form">
-    <div class="input_wrapper first_input">
+    <div id="down_arrow" class="hidden">
+        <i class="fa-solid fa-caret-down"></i>
+    </div>
+    <div id="right_arrow" class="hidden">
+        <i class="fa-solid fa-caret-right"></i>
+    </div>
+    <div id="rsf_mineral_block" class="input_wrapper first_input">
         <label for="txt_mineral">Mineral:</label>
         <input type="text" id="txt_mineral" name="txt_mineral" size="30" maxlength="255" value="" />
         <input type="hidden" id="mineral_ids" name="mineral_ids" value="">
@@ -43,7 +62,7 @@
         <!-- <a class="page_link_1" href="Javascript:MM_openBrWindow('https://rruff.info/index.php/r=lookup_minerals/calling_form=frm_sample_search/name_field=txt_mineral','MineralLookup','scrollbars=yes,width=800,height=600')">lookup</a> -->
     </div>
 
-    <div class="input_wrapper">
+    <div id="rsf_chemistry_incl_block" class="input_wrapper">
         <label for="txt_chemistry_incl">Chemistry Includes:
             <a class="chemistry_lookup_link">lookup</a>
         </label>
@@ -51,7 +70,7 @@
         <input type="hidden" id="chemistry_incl_txt">
     </div>
 
-    <div class="input_wrapper">
+    <div id="rsf_chemistry_excl_block" class="input_wrapper">
         <label for="txt_chemistry_excl">Chemistry Excludes:
             <a class="chemistry_lookup_link">lookup</a>
         </label>
@@ -59,20 +78,28 @@
         <input type="hidden" id="chemistry_excl_txt">
     </div>
 
-    <div class="input_wrapper">
+    <div id="rsf_general_block" class="input_wrapper">
         <label for="txt_general">General:</label>
         <input type="text" id="txt_general" name="txt_general" value="" size="30" maxlength="255">
     </div>
 
+    <!--
+    [odr-rruff-search-display datatype_id = "738"
+    general_search = "gen"
+    chemistry_incl = "7055"
+    mineral_name = "7052"
+    sample_id = "7069"
+    redirect_url = "/odr/rruff_sample#/odr/search/display/2010"]
+    -->
 
-    <div class="input_wrapper">
+    <div id="rsf_sort_block" class="input_wrapper">
         <label for="sel_sort">Sort By:</label>
         <select name="sel_sort" id="sel_sort" size="1">
-            <option value="18">Names</option>
-            <option value="34">RRUFF ID</option>
-            <option value="chemistry">Ideal Chemistry</option>
-            <option value="source">Source</option>
-            <option value="locality">Locality</option>
+            <option value="<?php echo $odr_search_plugin_options['sort_name_field']; ?>">Names</option>
+            <option value="<?php echo $odr_search_plugin_options['sort_rruff_id_field']; ?>">RRUFF ID</option>
+            <option value="<?php echo $odr_search_plugin_options['sort_ideal_chemistry_field']; ?>">Ideal Chemistry</option>
+            <option value="<?php echo $odr_search_plugin_options['sort_source_field']; ?>">Locality</option>
+            <option value="<?php echo $odr_search_plugin_options['sort_locality_field']; ?>">Source</option>
         </select>
         <select name="sel_sort_dir" id="sel_sort_dir" size="1">
             <option value="asc">asc</option>
@@ -80,13 +107,59 @@
         </select>
     </div>
 
-    <div class="input_wrapper submit_wrapper">
+    <div id="rsf_submit_block" class="input_wrapper submit_wrapper">
         <label for="submit"></label>
         <input id="rruff-search-form-submit" name="submit" type="submit" value="search">&nbsp;
         <input id="reset_sample_search" type="button" name="reset_sample_search" value="reset">
-        <!-- <a class="page_link_1" href="#" onclick="new Effect.toggle('div_display_options','blind');return false;">display options</a> -->
+        <a class="show-options" onclick="$('#div_display_options').toggle('slow');return false;">display options</a>
+    </div>
+
+
+    <div id="div_display_options" style="overflow: visible; display: none">
+        <div id="div_display_options_contents" style="padding-top: 10px;">
+            <span class="title">Display Options</span><br>
+            <ul class="display-options-list">
+                <li><input type="radio" id="display" name="display" value="default" checked="checked"> Default display - Name, RRUFF ID, Ideal Chemistry, Source, Locality.</li>
+                <li><input type="radio" id="display" name="display" value="picture"> Display pictures with the search results (limited to 100 per page).</li>
+                <li><input type="radio" id="display" name="display" value="raman"> Display Raman Spectra with the search results (limited to 100 per page).</li>
+                <li><input type="checkbox" id="save_as_default" name="save_as_default" value="true"> Save these options as your default search options.</li>
+                <li>
+                    <script type="text/javascript">
+
+                        function checkFilters(toggle) {
+                            if(toggle.checked) {
+                                $("#unoriented_raman_filter_0").prop('disabled', false);
+                                $("#unoriented_raman_filter_1").prop('disabled', false);
+                                $("#unoriented_raman_filter_2").prop('disabled', false);
+                                $("#unoriented_raman_filter_3").prop('disabled', false);
+                                $("#unoriented_raman_filter_4").prop('disabled', false);
+                            }
+                            else {
+                                $("#unoriented_raman_filter_0").prop('disabled', true);
+                                $("#unoriented_raman_filter_1").prop('disabled', true);
+                                $("#unoriented_raman_filter_2").prop('disabled', true);
+                                $("#unoriented_raman_filter_3").prop('disabled', true);
+                                $("#unoriented_raman_filter_4").prop('disabled', true);
+                            }
+                        }
+
+                    </script>
+                    <input type="checkbox" id="unoriented_raman_filter_enabled" name="unoriented_raman_filter_enabled" value="false" onclick="checkFilters(this);">
+                    Unoriented Raman Quality:&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="unoriented_raman_filter_checkbox" type="checkbox" id="unoriented_raman_filter_0" name="unoriented_raman_filter[]" value="2" disabled=""> Excellent&nbsp;&nbsp;&nbsp;
+                    <input class="unoriented_raman_filter_checkbox" type="checkbox" id="unoriented_raman_filter_1" name="unoriented_raman_filter[]" value="1" disabled=""> Fair&nbsp;&nbsp;&nbsp;
+                    <input class="unoriented_raman_filter_checkbox" type="checkbox" id="unoriented_raman_filter_2" name="unoriented_raman_filter[]" value="0" disabled=""> Poor&nbsp;&nbsp;&nbsp;
+                    <input class="unoriented_raman_filter_checkbox" type="checkbox" id="unoriented_raman_filter_3" name="unoriented_raman_filter[]" value="-1" disabled=""> Unrated&nbsp;&nbsp;&nbsp;
+                    <input class="unoriented_raman_filter_checkbox" type="checkbox" id="unoriented_raman_filter_4" name="unoriented_raman_filter[]" value="-2" disabled=""> Ignore&nbsp;&nbsp;&nbsp;
+                    <script type="text/javascript">
+                        checkFilters($("#unoriented_raman_filter_enabled"));
+                    </script>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
+<!-- /form -->
 
     <!-- <tr>
         <td colspan="3">
@@ -127,7 +200,7 @@
                             <input class="unoriented_raman_filter_checkbox" type="checkbox" id="unoriented_raman_filter_3" name="unoriented_raman_filter[]" value="-1" disabled=""> Unrated&nbsp;&nbsp;&nbsp;
                             <input class="unoriented_raman_filter_checkbox" type="checkbox" id="unoriented_raman_filter_4" name="unoriented_raman_filter[]" value="-2" disabled=""> Ignore&nbsp;&nbsp;&nbsp;
                             <script type="text/javascript">
-                                checkFilters($("unoriented_raman_filter_enabled"));
+                                checkFilters($("#unoriented_raman_filter_enabled"));
                             </script>
                         </li>
                     </ul>
@@ -295,4 +368,4 @@
    </div>
 </div>
 
-<center><a href="#" onclick="new Effect.toggle('disclaimer','blind'); return false;">Terms and Conditions</a></center>
+<!-- <center><a href="#" onclick="new Effect.toggle('disclaimer','blind'); return false;">Terms and Conditions</a></center> -->
