@@ -34,6 +34,7 @@
 </script>
 
 
+<form id="rruff-search-form-wrapper">
 <div id="rruff-search-form" class="search_form">
     <div class="input_wrapper first_input">
         <label for="txt_mineral">Mineral:</label>
@@ -64,12 +65,20 @@
         <input type="text" id="txt_general" name="txt_general" value="" size="30" maxlength="255">
     </div>
 
+    <!--
+    [odr-rruff-search-display datatype_id = "738"
+    general_search = "gen"
+    chemistry_incl = "7055"
+    mineral_name = "7052"
+    sample_id = "7069"
+    redirect_url = "/odr/rruff_sample#/odr/search/display/2010"]
+    -->
 
     <div class="input_wrapper">
         <label for="sel_sort">Sort By:</label>
         <select name="sel_sort" id="sel_sort" size="1">
-            <option value="18">Names</option>
-            <option value="34">RRUFF ID</option>
+            <option value="7052">Names</option>
+            <option value="7069">RRUFF ID</option>
             <option value="chemistry">Ideal Chemistry</option>
             <option value="source">Source</option>
             <option value="locality">Locality</option>
@@ -87,6 +96,7 @@
         <!-- <a class="page_link_1" href="#" onclick="new Effect.toggle('div_display_options','blind');return false;">display options</a> -->
     </div>
 </div>
+</form>
 
     <!-- <tr>
         <td colspan="3">

@@ -110,7 +110,7 @@ Search Form Definitions
 ************************************/
 #rruff-search-form {
     padding: 12px 12px 12px 12px;
-    background-color: rgba(0, 0, 0, 0.20);
+    background-color: RGBA(60, 110, 153, 1.00);
     border: none;
     color: #ffffff;
     border-radius: 18px;

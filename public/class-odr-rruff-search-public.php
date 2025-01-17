@@ -113,10 +113,10 @@ class Odr_Rruff_Search_Public {
         // override default attributes with user attributes
         $odr_rruff_search_vars = shortcode_atts(
             array(
-                'redirect_url' => '/odr/rruff_samples#/odr/search/display/7',
-                datatype_id => "3",
+                'redirect_url' => '/odr/rruff_sample#/odr/search/display/7',
+                datatype_id => "77",
                 general_search => "gen",
-                chemistry_incl => "21",
+                chemistry_incl => "199",
                 mineral_name => "18",
                 sample_id => "34"
             ), $attributes, $tag
