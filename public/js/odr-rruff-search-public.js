@@ -29,7 +29,99 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+	function summarySearchMode() {
+		$("#rsf_chemistry_excl_block").hide();
+		$("#rsf_chemistry_incl_block").hide();
+		$("#rsf_mineral_block").hide();
+		$("#rsf_general_block").hide();
+		$("#rsf_sort_block").hide();
+		$("#rsf_submit_block").addClass('summary-submit-block')
+		$("#odr_rruff_search_dialog").addClass('summary-search-form')
+		$("#rruff-search-form").addClass('summary-search-form')
+	}
+
 	$( window ).load(function() {
+
+		// Check if there are loaded search values
+		console.log('Hash: ' + location.hash)
+		let hash_params = location.hash.split('/');
+
+		// Check if hash is a search page and reveal search block
+		if(location.hash.match(/odr\/search\/display/)) {
+			$("#odr_rruff_search_dialog").show('fast');
+			summarySearchMode();
+		}
+
+		// Check if a search is appended
+		if(
+			hash_params[5] !== undefined
+			&& hash_params[5].length > 0
+		) {
+			let search_query = UnicodeDecodeB64(hash_params[5])
+			// let search_query = hash_params[5];
+			console.log('Search Query: ', search_query)
+			for (const [key, value] of Object.entries(JSON.parse(search_query))) {
+				// console.log(`${key}: ${value}`);
+				for (const [option, option_value] of Object.entries(search_options)) {
+					if(option_value === key) {
+						console.log('Found: ' + option)
+						switch(option) {
+							case 'general_search':
+								$("#txt_general").val(value);
+								$("#rsf_general_block").show();
+								break;
+							case 'chemistry_incl':
+								// split on spaces
+								let chemistry_arr = value.split(/\s+/);
+								for(let i = 0; i < chemistry_arr.length; i++) {
+									if(!chemistry_arr[i].match(/^!/)) {
+										// Includes
+										let val = $("#txt_chemistry_incl").val()
+										val = val + ", " + chemistry_arr[i]
+										val = val.replace(/^,\s/, '');
+										val = val.replace(/,\s$/, '');
+										$("#txt_chemistry_incl").val(val)
+										$("#chemistry_incl_txt").val(val)
+									}
+									else {
+										// excludes
+										let val = $("#txt_chemistry_excl").val()
+										val = val + ", " + chemistry_arr[i].replace('!', '');
+
+										val = val.replace(/^,\s/, '');
+										val = val.replace(/,\s$/, '');
+										$("#txt_chemistry_excl").val(val)
+										$("#chemistry_excl_txt").val(val)
+									}
+								}
+								$("#rsf_chemistry_incl_block").show();
+								$("#rsf_chemistry_excl_block").show();
+
+								break;
+							case 'mineral_name':
+								$("#txt_mineral").val(value);
+								$("#rsf_mineral_block").show();
+								break;
+							case 'sample_id':
+								$("#txt_mineral").val(value);
+								$("#rsf_mineral_block").show();
+								break;
+							case 'rruff_id':
+								$("#txt_mineral").val(value);
+								$("#rsf_mineral_block").show();
+								break;
+						}
+					}
+				}
+
+			}
+
+		}
+
+
+
+		// Hide when hash is present except fields that are filled
+		// Maybe make a quick general search version
 
 		$(".periodic_table").click(
 			function () {
@@ -159,12 +251,14 @@
 		});
 
 
+		/*
 		$("#rruff-search-form-wrapper").submit(
 			function () {
 				submitSearchForm();
 				return false;
 			}
 		);
+		 */
 
 		$("#rruff-search-form-submit").click(
 			// Use BtoA to encode
@@ -176,51 +270,53 @@
 	});
 
 	function submitSearchForm() {
+		console.log('Submit Search Form')
 		// UnicodeDecodeB64("JUUyJTlDJTkzJTIwJUMzJUEwJTIwbGElMjBtb2Rl"); // "✓ à la mode"
 		// Get mineral names or RRUFF IDS from txt_mineral
 		let search_json = {
-			"dt_id": datatype_id
+			"dt_id": search_options['datatype_id']
 		};
 		if($("#txt_mineral").val().trim().match(/^R\d+$/i)) {
 			// display specific mineral id
 			// {"dt_id":"3","34":"r040034"}
-			search_json[sample_id] = $("#txt_mineral").val().trim();
+			search_json[ search_options['rruff_id'] ] = $("#txt_mineral").val().trim();
 		}
 		else if($("#txt_mineral").val().trim() !== '') {
 			// Check for commas (separated minerals)
 			// search for IMA Mineral Display Name
 			// {"dt_id":"3","18":"actinolite"}
-			search_json[mineral_name] = $("#txt_mineral").val().trim();
+			search_json[ search_options['mineral_name'] ] = $("#txt_mineral").val().trim();
 		}
 
 		// Get General Text search field
 		if($("#txt_general").val().trim() !== '') {
 			// {"dt_id":"3","gen":"quartz"}
-			search_json[general_search] = $("#txt_general").val().trim();
+			search_json[ search_options['general_search'] ] = $("#txt_general").val().trim();
 		}
 
 		// Get chemistry includes
-		if($("#chemistry_incl_txt").val()) {
+		if($("#txt_chemistry_incl").val() !== undefined) {
 			// {"dt_id":"3","21":"C"}
-			search_json[chemistry_incl] = $("#chemistry_incl_txt").val().trim().replaceAll(/,/g,' ');
+			search_json[ search_options['chemistry_incl'] ] = $("#txt_chemistry_incl").val().trim().replaceAll(/,/g,' ');
 		}
 
+
 		// Get chemistry excludes
-		if($("#chemistry_excl_txt").val()) {
+		if($("#txt_chemistry_excl").val() !== undefined) {
 			// {"dt_id":"3","21":"!Ni"}
 			// {"dt_id":"3","21":"!Ni,!O"}
-			if(search_json[chemistry_incl]) {
-				search_json[chemistry_incl] += ' ';
-				$("#chemistry_excl_txt").val().split(/,/).forEach(
+			if(search_json[ search_options['chemistry_incl'] ]) {
+				search_json[ search_options['chemistry_incl'] ] += ' ';
+				$("#txt_chemistry_excl").val().split(/,/).forEach(
 					function(item) {
-						search_json[chemistry_incl] += '!' + item.trim() + ' ';
+						search_json[ search_options['chemistry_incl'] ] += '!' + item.trim() + ' ';
 					}
 				);
 			}
 			else {
-				$("#chemistry_excl_txt").val().split(/,/).forEach(
+				$("#txt_chemistry_excl").val().split(/,/).forEach(
 					function(item) {
-						search_json[chemistry_incl] += '!' + item.trim() + ' ';
+						search_json[ search_options['chemistry_incl'] ] += '!' + item.trim() + ' ';
 					}
 				);
 			}
@@ -248,11 +344,11 @@
 		search_string = search_string.replace(/==$/, '');
 		search_string = search_string.replace(/=$/, '');
 		// https://beta.rruff.net/odr/rruff_samples#/odr/search/display/7/eyJkdF9pZCI6IjMifQ/1
-		if(redirect_url === '/odr/network') {
-			window.location = redirect_url, true
+		if(search_options['redirect_url'] === '/odr/network') {
+			window.location = search_options['redirect_url'], true
 		}
 		else {
-			let redirect =  redirect_url + "/" + search_string + "/1";
+			let redirect =  search_options['redirect_url'] + "/" + search_options['default_search'] + "/" + search_string + "/1";
 			window.location = redirect, true
 		}
 	}

@@ -99,7 +99,8 @@ class Odr_Rruff_Search_Public {
 		 * class.
 		 */
 
-         wp_register_script( $this->plugin_name . '-js', plugin_dir_url( __FILE__ ) . 'js/odr-rruff-search-public.js', array( 'jquery' ), $this->version, false );
+        wp_register_script( $this->plugin_name . '-js', plugin_dir_url( __FILE__ ) . 'js/odr-rruff-search-public.js', array( 'jquery' ), $this->version, false );
+        wp_register_script( $this->plugin_name . '-mineral-data', 'https://beta.rruff.net/odr_rruff/uploads/IMA/mineral_data.js', '', '', false);
 
 	}
 
@@ -111,6 +112,21 @@ class Odr_Rruff_Search_Public {
         $attributes = array_change_key_case( (array) $attributes, CASE_LOWER );
 
         // override default attributes with user attributes
+
+        /*
+            [odr-rruff-search-display datatype_id = "738"
+                general_search = "gen"
+                chemistry_incl = "7055"
+                mineral_name = "7052"
+                sample_id = "7069"
+                default_search = "2229"
+                search_pictures = "2010"
+                search_spectra = "111"
+                redirect_url = "/odr/rruff_sample#/odr/search/display/2010"
+        ]
+        */
+
+
         $odr_rruff_search_vars = shortcode_atts(
             array(
                 'redirect_url' => '/odr/rruff_sample#/odr/search/display/7',
@@ -118,12 +134,18 @@ class Odr_Rruff_Search_Public {
                 general_search => "gen",
                 chemistry_incl => "199",
                 mineral_name => "18",
-                sample_id => "34"
+                sample_id => "34",
+                default_search => "2010",
+                search_pictures => "2143",
+                search_spectra => "3147"
             ), $attributes, $tag
         );
 
         wp_enqueue_style( $this->plugin_name . '-style');
         wp_enqueue_script( $this->plugin_name . '-js');
+        wp_enqueue_script( $this->plugin_name . '-mineral-data');
+
+        $odr_search_plugin_options = get_option( 'odr_search_plugin_options' );
 
         ob_start();
         include_once('partials/odr-rruff-search-public-display.php');
