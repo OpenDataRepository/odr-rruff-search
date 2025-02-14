@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-const ODR_RRUFF_SEARCH_VERSION = '1.1.35';
+define( 'ODR_RRUFF_SEARCH_VERSION', '1.1.2' );
 
 /**
  * The code that runs during plugin activation.
