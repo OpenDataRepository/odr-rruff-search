@@ -79,9 +79,9 @@
         <select name="sel_sort" id="sel_sort" size="1">
             <option value="7052">Names</option>
             <option value="7069">RRUFF ID</option>
-            <option value="chemistry">Ideal Chemistry</option>
-            <option value="source">Source</option>
-            <option value="locality">Locality</option>
+            <option value="7056">Ideal Chemistry</option>
+            <option value="7071">Source</option>
+            <option value="7075">Locality</option>
         </select>
         <select name="sel_sort_dir" id="sel_sort_dir" size="1">
             <option value="asc">asc</option>
