@@ -503,3 +503,7 @@ table.search_form th {
     font-weight: bold;
     color: rgba(255,255,255, 0.8) !important;
 }
+
+.AMCSDInterfaceTable input[type=text] {
+    width: 100%;
+}
