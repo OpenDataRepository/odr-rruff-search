@@ -37,7 +37,9 @@
 <form id="rruff-search-form-wrapper">
 <div id="rruff-search-form" class="search_form">
     <div class="input_wrapper first_input">
-        <label for="txt_mineral">Mineral:</label>
+        <label for="txt_mineral">
+            <a href="#ODRMineralList" rel="modal:open" class="AMCSDHelperLink">Mineral</a>
+        </label>
         <input type="text" id="txt_mineral" name="txt_mineral" size="30" maxlength="255" value="" />
         <input type="hidden" id="mineral_ids" name="mineral_ids" value="">
         <input type="hidden" id="txt_tag_ids" name="txt_tag_ids" value="">
@@ -45,23 +47,27 @@
     </div>
 
     <div class="input_wrapper">
-        <label for="txt_chemistry_incl">Chemistry Includes:
-            <a class="chemistry_lookup_link">lookup</a>
-        </label>
-        <input type="text" id="txt_chemistry_incl" name="txt_chemistry_incl" value="" size="30" maxlength="255">
-        <input type="hidden" id="chemistry_incl_txt">
+        <div class="input_wrapper_right_side chemistry_labels">
+            <label for="txt_chemistry_incl">Chemistry Includes:</label>
+            <label for="txt_chemistry_excl">Chemistry Excludes:</label>
+        </div>
+        <div class="label_wrapper chemistry_labels"></div>
     </div>
 
     <div class="input_wrapper">
-        <label for="txt_chemistry_excl">Chemistry Excludes:
-            <a class="chemistry_lookup_link">lookup</a>
-        </label>
-        <input type="text" id="txt_chemistry_excl" name="txt_chemistry_excl" value="" size="30" maxlength="255">
-        <input type="hidden" id="chemistry_excl_txt">
+        <div class="input_wrapper_right_side">
+            <input type="text" id="txt_chemistry_incl" name="txt_chemistry_incl" value="" size="30" maxlength="255">
+            <input type="hidden" id="chemistry_incl_txt">
+            <input type="text" id="txt_chemistry_excl" name="txt_chemistry_excl" value="" size="30" maxlength="255">
+            <input type="hidden" id="chemistry_excl_txt">
+        </div>
+        <div class="label_wrapper">
+            <a class="chemistry_lookup_link">Chemistry</a>
+        </div>
     </div>
 
     <div class="input_wrapper">
-        <label for="txt_general">General:</label>
+        <label for="txt_general">General</label>
         <input type="text" id="txt_general" name="txt_general" value="" size="30" maxlength="255">
     </div>
 
@@ -75,7 +81,7 @@
     -->
 
     <div class="input_wrapper">
-        <label for="sel_sort">Sort By:</label>
+        <label for="sel_sort">Sort By</label>
         <select name="sel_sort" id="sel_sort" size="1">
             <option value="7052">Names</option>
             <option value="7069">RRUFF ID</option>
@@ -305,4 +311,70 @@
    </div>
 </div>
 
-<center><a href="#" onclick="new Effect.toggle('disclaimer','blind'); return false;">Terms and Conditions</a></center>
+<div id="ODRMineralList" class="modal">
+    <table>
+        <tr>
+            <td colspan="4" class="AMCSDMineralAlpha">
+                <span class="AMCSDMineralNameLetter">A</span>
+                <span class="AMCSDMineralNameLetter">B</span>
+                <span class="AMCSDMineralNameLetter">C</span>
+                <span class="AMCSDMineralNameLetter">D</span>
+                <span class="AMCSDMineralNameLetter">E</span>
+                <span class="AMCSDMineralNameLetter">F</span>
+                <span class="AMCSDMineralNameLetter">G</span>
+                <span class="AMCSDMineralNameLetter">H</span>
+                <span class="AMCSDMineralNameLetter">I</span>
+                <span class="AMCSDMineralNameLetter">J</span>
+                <span class="AMCSDMineralNameLetter">K</span>
+                <span class="AMCSDMineralNameLetter">L</span>
+                <span class="AMCSDMineralNameLetter">M</span>
+                <span class="AMCSDMineralNameLetter">N</span>
+                <span class="AMCSDMineralNameLetter">O</span>
+                <span class="AMCSDMineralNameLetter">P</span>
+                <span class="AMCSDMineralNameLetter">Q</span>
+                <span class="AMCSDMineralNameLetter">R</span>
+                <span class="AMCSDMineralNameLetter">S</span>
+                <span class="AMCSDMineralNameLetter">T</span>
+                <span class="AMCSDMineralNameLetter">U</span>
+                <span class="AMCSDMineralNameLetter">V</span>
+                <span class="AMCSDMineralNameLetter">W</span>
+                <span class="AMCSDMineralNameLetter">X</span>
+                <span class="AMCSDMineralNameLetter">Y</span>
+                <span class="AMCSDMineralNameLetter">Z</span>
+                <span class="AMCSDCloseModal"><a href="#close-modal" rel="modal:close">[ close ]</a></span>
+                <span class="AMCSDCloseModal" onclick="clearMineralNameList()">[ clear ]</span>
+            </td>
+        </tr>
+        <?php
+        try {
+            include(__DIR__ . '/../../../../data-publisher/web/uploads/IMA/mineral_names.php');
+            include(__DIR__ . '/../../../../data-publisher/web/uploads/IMA/mineral_names_update.php');
+            $count = 0;
+            $column_count = 0;
+            $current_letter = 'a';
+            asort($mineral_names, SORT_LOCALE_STRING);
+            foreach ($mineral_names as $mineral_name) {
+                // Check if we match current letter
+                if(mb_strtolower(substr($mineral_name,0, 1)) !== $current_letter) {
+                    // Force count to 4
+                    $current_letter =  mb_strtolower(substr($mineral_name,0, 1));
+                    $count = 4;
+                    $column_count = 0;
+                }
+
+                if ($count % 4 === 0) {
+                    ?><tr><?php
+                }
+                ?><td class="AMCSDMineralName"><?php print $mineral_name ?></td><?php
+                $column_count++;
+                if ($column_count === 4) {
+                    ?></tr><?php
+                    $column_count = 0;
+                }
+                $count++;
+            }
+        } catch (Exception $e) {
+        }
+        ?>
+    </table>
+</div>

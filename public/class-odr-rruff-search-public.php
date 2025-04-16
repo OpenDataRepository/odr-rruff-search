@@ -76,8 +76,11 @@ class Odr_Rruff_Search_Public {
         add_shortcode('odr-rruff-search-display', array($this, 'odr_render_html'));
 
         // TODO Need to read configuration variables for other pages
+        wp_register_style( $this->plugin_name . '-modal-style', plugin_dir_url( __FILE__ ) . 'css/jquery.modal.0.9.1.css', array(), $this->version, 'all' );
         wp_register_style( $this->plugin_name . '-style', plugin_dir_url( __FILE__ ) . 'css/odr-rruff-search-public.css', array(), $this->version, 'all' );
 
+        wp_enqueue_style( $this->plugin_name . '-modal-style');
+        wp_enqueue_style( $this->plugin_name . '-style');
 	}
 
 	/**
@@ -99,9 +102,11 @@ class Odr_Rruff_Search_Public {
 		 * class.
 		 */
 
-         wp_register_script( $this->plugin_name . '-js', plugin_dir_url( __FILE__ ) . 'js/odr-rruff-search-public.js', array( 'jquery' ), $this->version, false );
+        wp_register_script( $this->plugin_name . '-js', plugin_dir_url( __FILE__ ) . 'js/odr-rruff-search-public.js', array( 'jquery' ), $this->version, false );
+        wp_register_script( $this->plugin_name . '-modal-js', plugin_dir_url( __FILE__ ) . 'js/jquery.modal.0.9.1.js', '', $this->version, false );
 
-	}
+
+    }
 
 	/**
      * Include the HTML and output it to the screen
@@ -122,8 +127,8 @@ class Odr_Rruff_Search_Public {
             ), $attributes, $tag
         );
 
-        wp_enqueue_style( $this->plugin_name . '-style');
         wp_enqueue_script( $this->plugin_name . '-js');
+        wp_enqueue_script( $this->plugin_name . '-modal-js');
 
         ob_start();
         include_once('partials/odr-rruff-search-public-display.php');

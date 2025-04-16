@@ -1,3 +1,4 @@
+let rruff_minerals = [];
 (function( $ ) {
 	'use strict';
 
@@ -31,148 +32,226 @@
 
 	$( window ).load(function() {
 
-		$(".periodic_table").click(
-			function () {
-				if ($(this).attr('id') === 'periodic_table_clear') {
-					$('.periodic_table').removeClass('included');
-					$('.periodic_table').removeClass('excluded');
-					setChemistryFields();
-					return;
-				}
+		jQuery.when(
+			// jQuery.getScript( '/odr_rruff/uploads/IMA/master_tag_data.js'),
+			// jQuery.getScript( '/odr_rruff/uploads/IMA/pm_tag_data.js'),
+			// Used for getting the
+			jQuery.getScript('/odr_rruff/uploads/IMA/cellparams_data.js'),
+			jQuery.getScript('/odr_rruff/uploads/IMA/cellparams_data_update.js'),
+			jQuery.Deferred(function (deferred) {
+				jQuery(deferred.resolve);
+			})
+		).done(() => {
 
-				if ($(this).attr('id') === 'periodic_table_all') {
-					$(this).toggleClass('excluded');
-					setChemistryFields();
-					return;
-				}
-
-				// Check if element is "selected"
-				// !$("periodic_table_lanthanides").hasClass('included')
-
-				if (
-					$(this).hasClass("pt_lanthanides")
-					&& (
-						$("#periodic_table_lanthanides").hasClass('included')
-						|| $("#periodic_table_lanthanides").hasClass('excluded')
-					)
-				) {
-					return
-				}
-				if (
-					$(this).hasClass("pt_actinides")
-					&& (
-						$("#periodic_table_actinides").hasClass('included')
-						|| $("#periodic_table_actinides").hasClass('excluded')
-					)
-				) {
-					return
-				}
-
-				// Deal with lanthanides & actinides
-				let element = $(this).attr('id').replace('periodic_table_', '');
-
-				if (
-					element === 'lanthanides'
-					&& (
-						(
-							!$(this).hasClass("included")
-							&& !$(this).hasClass("excluded")
-							&& !$(".pt_lanthanides").hasClass('included') // .length === 0
-							&& !$(".pt_lanthanides").hasClass('excluded') // .length === 0
-						)
-						|| (
-							$(this).hasClass("included")
-							&& $(".pt_lanthanides").hasClass('included')
-						)
-						|| (
-							$(this).hasClass("excluded")
-							&& $(".pt_lanthanides").hasClass('excluded')
-						)
-					)
-				) {
-					setInclExcl(this)
-					$(".pt_lanthanides").each(
-						function () {
-							setInclExcl(this)
+			if(cellparams !== undefined) {
+				for(let key of Object.keys(cellparams)) {
+					// Key should also be in rruff_record_exists
+					// console.log('KEY: ', key + ' ' + rruff_record_exists[key])
+					if(rruff_record_exists[key] !== undefined
+						&& rruff_record_exists[key] === 'true') {
+						if(cellparams.hasOwnProperty(key)) {
+							let cell_param_obj = cellparams[key]
+							for (let mineralKey of Object.keys(cell_param_obj)){
+								if(cell_param_obj.hasOwnProperty(mineralKey)) {
+									let cell_param_data = cell_param_obj[mineralKey].split(/\|/)
+									rruff_minerals.push(cell_param_data[2].toLowerCase())
+								}
+							}
 						}
-					)
-				} else if (
-					element === 'actinides'
-					&& (
-						(
-							!$(this).hasClass("included")
-							&& !$(this).hasClass("excluded")
-							&& !$(".pt_actinides").hasClass('included') // .length === 0
-							&& !$(".pt_actinides").hasClass('excluded') // .length === 0
-						)
-						|| (
-							$(this).hasClass("included")
-							&& $(".pt_actinides").hasClass('included')
-						)
-						|| (
-							$(this).hasClass("excluded")
-							&& $(".pt_actinides").hasClass('excluded')
-						)
-					)
-				) {
-					setInclExcl(this)
-					$(".pt_actinides").each(
-						function () {
-							setInclExcl(this)
-						}
-					)
-				} else if (
-					element !== 'actinides'
-					&& element !== 'lanthanides'
-				) {
-					setInclExcl(this)
+					}
 				}
-
-				setChemistryFields();
 			}
-		);
+			// console.log('RRUFF Minerals: ', rruff_minerals)
+			rruff_minerals = rruff_minerals.filter(getUniqueValues);
+			// console.log('RRUFF Minerals: ', rruff_minerals)
+			rruff_minerals = localeSort(rruff_minerals)
+			// console.log('RRUFF Minerals: ', rruff_minerals)
 
-		$(".chemistry_lookup_link").click(
-			function () {
-				$("#div_periodic_table").slideToggle('300',
-					function () {
-						if ($("#div_periodic_table:visible") && $(window).width() < 600) {
-							$('html, body').animate({
-								scrollTop: ($("#div_periodic_table").offset().top - 110)
-							}, 2000);
-						}
-					})
-			}
-		);
 
-		$("#reset_sample_search").click(function () {
-			$("#txt_mineral").val('');
-			$("#txt_general").val('');
-			$("#chemistry_incl_txt").val('');
-			$("#chemistry_excl_txt").val('');
-			$("#txt_chemistry_incl").val('');
-			$("#txt_chemistry_excl").val('');
-			$("#sel_sort").val($("#sel_sort option:first").val());
-			$("#sel_sort_dir").val($("#sel_sort_dir option:first").val());
-			$('.periodic_table').removeClass('included');
-			$('.periodic_table').removeClass('excluded');
+			$(".periodic_table").click(
+				function () {
+					if ($(this).attr('id') === 'periodic_table_clear') {
+						$('.periodic_table').removeClass('included');
+						$('.periodic_table').removeClass('excluded');
+						setChemistryFields();
+						return;
+					}
+
+					if ($(this).attr('id') === 'periodic_table_all') {
+						$(this).toggleClass('excluded');
+						setChemistryFields();
+						return;
+					}
+
+					// Check if element is "selected"
+					// !$("periodic_table_lanthanides").hasClass('included')
+
+					if (
+						$(this).hasClass("pt_lanthanides")
+						&& (
+							$("#periodic_table_lanthanides").hasClass('included')
+							|| $("#periodic_table_lanthanides").hasClass('excluded')
+						)
+					) {
+						return
+					}
+					if (
+						$(this).hasClass("pt_actinides")
+						&& (
+							$("#periodic_table_actinides").hasClass('included')
+							|| $("#periodic_table_actinides").hasClass('excluded')
+						)
+					) {
+						return
+					}
+
+					// Deal with lanthanides & actinides
+					let element = $(this).attr('id').replace('periodic_table_', '');
+
+					if (
+						element === 'lanthanides'
+						&& (
+							(
+								!$(this).hasClass("included")
+								&& !$(this).hasClass("excluded")
+								&& !$(".pt_lanthanides").hasClass('included') // .length === 0
+								&& !$(".pt_lanthanides").hasClass('excluded') // .length === 0
+							)
+							|| (
+								$(this).hasClass("included")
+								&& $(".pt_lanthanides").hasClass('included')
+							)
+							|| (
+								$(this).hasClass("excluded")
+								&& $(".pt_lanthanides").hasClass('excluded')
+							)
+						)
+					) {
+						setInclExcl(this)
+						$(".pt_lanthanides").each(
+							function () {
+								setInclExcl(this)
+							}
+						)
+					} else if (
+						element === 'actinides'
+						&& (
+							(
+								!$(this).hasClass("included")
+								&& !$(this).hasClass("excluded")
+								&& !$(".pt_actinides").hasClass('included') // .length === 0
+								&& !$(".pt_actinides").hasClass('excluded') // .length === 0
+							)
+							|| (
+								$(this).hasClass("included")
+								&& $(".pt_actinides").hasClass('included')
+							)
+							|| (
+								$(this).hasClass("excluded")
+								&& $(".pt_actinides").hasClass('excluded')
+							)
+						)
+					) {
+						setInclExcl(this)
+						$(".pt_actinides").each(
+							function () {
+								setInclExcl(this)
+							}
+						)
+					} else if (
+						element !== 'actinides'
+						&& element !== 'lanthanides'
+					) {
+						setInclExcl(this)
+					}
+
+					setChemistryFields();
+				}
+			);
+
+			$(".chemistry_lookup_link").click(
+				function () {
+					$("#div_periodic_table").slideToggle('300',
+						function () {
+							if ($("#div_periodic_table:visible") && $(window).width() < 600) {
+								$('html, body').animate({
+									scrollTop: ($("#div_periodic_table").offset().top - 110)
+								}, 2000);
+							}
+						})
+				}
+			);
+
+			$("#reset_sample_search").click(function () {
+				$("#txt_mineral").val('');
+				$("#txt_general").val('');
+				$("#chemistry_incl_txt").val('');
+				$("#chemistry_excl_txt").val('');
+				$("#txt_chemistry_incl").val('');
+				$("#txt_chemistry_excl").val('');
+				$("#sel_sort").val($("#sel_sort option:first").val());
+				$("#sel_sort_dir").val($("#sel_sort_dir option:first").val());
+				$('.periodic_table').removeClass('included');
+				$('.periodic_table').removeClass('excluded');
+			});
+
+
+			$("#rruff-search-form-wrapper").submit(
+				function () {
+					submitSearchForm();
+					return false;
+				}
+			);
+
+			$("#rruff-search-form-submit").click(
+				// Use BtoA to encode
+				function () {
+					submitSearchForm();
+					return false;
+				}
+			);
+
+
+			// Prepare Mineral Name Modal
+			jQuery(".AMCSDMineralNameLetter").click(function () {
+				filterMineralNameList(jQuery(this).html())
+			});
+
+			// TODO Add filtering for valid AMCSD records
+			filterMineralNameList("A")
+
+			jQuery(".AMCSDMineralName").click(function () {
+				// If already selected, deselect and remove from list
+				if (jQuery(this).hasClass('AMCSDMineralNameSelected')) {
+					let mineral_name = jQuery(this).html();
+					let txt_mineral = jQuery("#txt_mineral").val();
+					let mineral_name_comma = mineral_name + ', ';
+					if (txt_mineral.match(mineral_name_comma)) {
+						jQuery('#txt_mineral').val(
+							txt_mineral.replace(mineral_name_comma, '')
+						)
+					} else if (txt_mineral.match(mineral_name)) {
+						jQuery('#txt_mineral').val(
+							txt_mineral.replace(mineral_name, '')
+						)
+					}
+					jQuery(this).removeClass('AMCSDMineralNameSelected')
+				} else {
+					// else select mineral
+					if (jQuery("#txt_mineral").val().length === 0) {
+						jQuery("#txt_mineral").val(
+							jQuery(this).html()
+						)
+					} else {
+						jQuery("#txt_mineral").val(
+							jQuery("#txt_mineral").val() + ', ' +
+							jQuery(this).html()
+						)
+					}
+					jQuery(this).addClass('AMCSDMineralNameSelected')
+				}
+			});
 		});
-
-
-		$("#rruff-search-form-wrapper").submit(
-			function () {
-				submitSearchForm();
-				return false;
-			}
-		);
-
-		$("#rruff-search-form-submit").click(
-			// Use BtoA to encode
-			function () {
-				submitSearchForm();
-				return false;
-			}
-		);
 	});
 
 	function submitSearchForm() {
@@ -373,10 +452,94 @@
 
 })( jQuery );
 
-function b64EncodeUnicode(str) {
-	return btoa(str);
+
+function filterMineralNameList(letter) {
+	jQuery(".AMCSDMineralName").hide()
+	jQuery(".AMCSDMineralName").removeClass("AMCSDNotFound")
+
+	let regex = new RegExp('^' + letter, 'i');
+	let mineral_list_objects = jQuery(".AMCSDMineralName");
+	for(let item of mineral_list_objects) {
+		// Add check if mineral name is in list from cellparams data
+		let mineral_name = jQuery(item).html().toLowerCase();
+		if (mineral_name.substring(0,1).localeCompare(letter.toLowerCase(), 'en', {sensitivity: "base"}) > 0) {
+			break;
+		}
+		if (mineral_name.match(regex)) {
+			// HiLoSearch to find mineral....??
+			jQuery(item).show()
+			if(!hiLoSearch(mineral_name, rruff_minerals)) {
+				// fade minerals with no AMCSD record
+				jQuery(item).addClass('AMCSDNotFound')
+			}
+		}
+	}
 }
 
+
+
+function b64EncodeUnicode(str) {
+	// first we use encodeURIComponent to get percent-encoded Unicode,
+	// then we convert the percent encodings into raw bytes which
+	// can be fed into btoa.
+	return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+		function toSolidBytes(match, p1) {
+			return String.fromCharCode('0x' + p1);
+		}))
+		.replace(/\+/g, '-')
+		.replace(/\//g, '_')
+		.replace(/=+$/, '');
+}
+
+
 function UnicodeDecodeB64(str) {
-	return decodeURIComponent(atob(str));
+	return decodeURIComponent(
+		atob(
+			str.replace(/-/g, '+')
+				.replace(/_/g, '/')
+				.padEnd(value.length + (m === 0 ? 0 : 4 - m), '=')
+		)
+	);
+}
+
+
+
+function localeSort(array_obj) {
+	array_obj.sort( (a,b) => {
+		let nameA = a.toLowerCase().replace(/[\(\)\-\_]/g, '');
+		let nameB = b.toLowerCase().replace(/[\(\)\-\_]/g, '');
+		return nameA.localeCompare(nameB, 'en')
+	});
+
+	return array_obj;
+}
+
+
+function getUniqueValues(value, index, array) {
+	return array.indexOf(value) === index;
+}
+
+
+function hiLoSearch(search_string, array_obj) {
+	// max 10 loops = 2^10
+	let low = 0;
+	let high = array_obj.length - 1;
+	let mid = Math.floor((high-low)/2)
+	for(let i= 0; i < 30; i++) {
+		let value = array_obj[mid];
+		if (search_string.localeCompare(value, 'en', {sensitivity: "base"}) === 0) {
+			return value;
+		}
+		else if (search_string.localeCompare(value, 'en', {sensitivity: "base"}) < 0) {
+			// Before
+			high = mid
+			mid = Math.floor(high - (high-low)/2)
+		}
+		else {
+			// After
+			low = mid
+			mid = Math.floor(low + (high-low)/2)
+		}
+	}
+	return null
 }

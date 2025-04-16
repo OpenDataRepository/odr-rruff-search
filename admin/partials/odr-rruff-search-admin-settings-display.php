@@ -27,8 +27,8 @@
 <h2>ODR Search Plugin Settings</h2>
 <form action="options.php" method="post">
     <?php
-    settings_fields( 'odr_search_plugin_options' );
-    do_settings_sections( $this->plugin_name ); ?>
+        settings_fields( 'odr_search_plugin_options' );
+        do_settings_sections( $this->plugin_name );
+    ?>
     <input name="submit" class="button button-primary" type="submit" value="<?php esc_attr_e( 'Save' ); ?>" />
 </form>
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->

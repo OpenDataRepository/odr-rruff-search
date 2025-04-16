@@ -21,8 +21,10 @@ table.search_form {
 .search_form input[type=url],
 .search_form select,
 .search_form textarea {
+    width: auto;
     padding: 0.25em 0.25em 0.25em 0.25em;
     font-size: 13px;
+
 }
 
 
@@ -109,15 +111,59 @@ th.search_form {
 Search Form Definitions
 ************************************/
 #rruff-search-form {
-    padding: 12px 12px 12px 12px;
-    background-color: RGBA(60, 110, 153, 1.00);
-    border: none;
-    color: #ffffff;
-    border-radius: 18px;
-    width: 600px;
-    margin-bottom: 30px;
+    padding: 12px 12px 12px 12px !important;
+    background-color: RGBA(60, 110, 153, 1.00) !important;
+    border: none !important;
+    color: #ffffff !important;
+    border-radius: 18px !important;
+    min-width: 600px !important;
+    width: 80% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-bottom: 30px !important;
 }
 
+#rruff-search-form label {
+    color: white !important;
+    font-weight: bold !important;
+    padding-left: 12px !important;
+    font-size: 16px !important;
+}
+
+#rruff-search-form input,
+#rruff-search-form input[type=text] {
+    padding: 8px 8px 8px 8px !important;
+    font-size: 16px !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    height: 40px !important;
+    border-radius: 4px !important;
+}
+
+#txt_chemistry_excl,
+#txt_chemistry_incl {
+    width: 49% !important;
+}
+
+
+.label_wrapper {
+    text-align: right;
+    width: 33%;
+    height: 40px;
+}
+
+.input_wrapper_right_side {
+    display: inline-block;
+    height: 44px;
+    margin-right: 26px;
+    width: 62%;
+    float: right;
+}
+
+.chemistry_labels {
+    text-align: left !important;
+    height: 20px;
+}
 .input_wrapper {
     padding: 0 0 10px 0;
 }
@@ -131,9 +177,52 @@ Search Form Definitions
     margin-right: auto;
 }
 
-.chemistry_lookup_link {
-    line-height: 20px;
+a.AMCSDHelperLink,
+a.AMCSDHelperLink:active,
+a.AMCSDHelperLink:visited,
+a.AMCSDHelperLink:hover,
+a.chemistry_lookup_link:active,
+a.chemistry_lookup_link:visited,
+a.chemistry_lookup_link:hover,
+a.chemistry_lookup_link {
+    font-family: Roboto, serif;
+    cursor: pointer;
+    color: white !important;
+    text-decoration: underline;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 40px;
     display: block;
+}
+
+
+.AMCSDAuthorAlpha,
+.AMCSDMineralAlpha {
+    position: sticky;
+    top: -20px;
+    background-color: white;
+    margin-top: 0;
+    text-align: center;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+}
+
+.AMCSDAlphaSelected {
+    font-weight: bold;
+}
+
+#ODRAuthorList table,
+#ODRMineralList table {
+    width: 780px !important;
+    border: none;
+}
+
+#ODRAuthorList tr,
+#ODRAuthorList td,
+#ODRMineralList tr,
+#ODRMineralList td {
+    border: none;
+    padding: 0;
 }
 
 
