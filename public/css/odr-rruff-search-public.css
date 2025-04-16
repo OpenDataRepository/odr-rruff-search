@@ -140,11 +140,15 @@ Search Form Definitions
     border-radius: 4px !important;
 }
 
+
 #txt_chemistry_excl,
 #txt_chemistry_incl {
     width: 49% !important;
 }
 
+#rruff-search-form input[type=text] {
+    width: 62%;
+}
 
 .label_wrapper {
     text-align: right;
