@@ -28,6 +28,8 @@ table.search_form {
 }
 
 
+#rruff-search-form-submit,
+#reset_sample_search,
 .search_form input[type=button],
 .search_form input[type=submit] {
     display: inline-block;
