@@ -152,7 +152,7 @@ Search Form Definitions
 
 .label_wrapper {
     text-align: right;
-    width: 33%;
+    width: 33% !important;
     height: 40px;
 }
 
@@ -170,6 +170,10 @@ Search Form Definitions
 }
 .input_wrapper {
     padding: 0 0 10px 0;
+}
+
+.input_wrapper label {
+    width: 33%;
 }
 
 .first_input {
