@@ -77,11 +77,13 @@ class Odr_Rruff_Search_Public {
 
         // TODO Need to read configuration variables for other pages
         // "https://beta.rruff.net/odr_rruff/css/external/pure-grids-responsive-min.css?ver=6.8.1
-        wp_register_style( $this->plugin_name . '-pure-css-style','/odr_rruff/css/external/pure-grids-responsive-min.css?ver=6.8.1', array(), $this->version, 'all' );
+        wp_register_style( $this->plugin_name . '-pure-css-style','/odr_rruff/css/external/pure-min.css?ver=6.8.1', array(), $this->version, 'all' );
+        wp_register_style( $this->plugin_name . '-pure-css-responsive','/odr_rruff/css/external/pure-grids-responsive-min.css?ver=6.8.1', array(), $this->version, 'all' );
         wp_register_style( $this->plugin_name . '-modal-style', plugin_dir_url( __FILE__ ) . 'css/jquery.modal.0.9.1.css', array(), $this->version, 'all' );
         wp_register_style( $this->plugin_name . '-style', plugin_dir_url( __FILE__ ) . 'css/odr-rruff-search-public.css', array(), $this->version, 'all' );
 
         wp_enqueue_style( $this->plugin_name . '-pure-css-style');
+        wp_enqueue_style( $this->plugin_name . '-pure-css-responsive');
         wp_enqueue_style( $this->plugin_name . '-modal-style');
         wp_enqueue_style( $this->plugin_name . '-style');
 	}
