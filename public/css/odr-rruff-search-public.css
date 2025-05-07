@@ -102,6 +102,10 @@ th.search_form {
     font-size: 1em;
 }
 
+#sel_sort,
+#sel_sort_dir {
+    padding: 0 0 0 0;
+}
 
 /************************************
 Search Form Definitions
