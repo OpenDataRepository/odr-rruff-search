@@ -55,14 +55,14 @@
             <a class="chemistry_lookup_link">Chemistry</a>
         </div>
         <div class="pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
-            <label class="chemistry_labels" for="txt_chemistry_incl">Includes:</label>
-            <input class="pure-u-1-2" type="text" id="txt_chemistry_incl" name="txt_chemistry_incl" value="">
+            <label class="chemistry_labels pure-u-1" for="txt_chemistry_incl">Includes:</label>
+            <input class="pure-u-1" type="text" id="txt_chemistry_incl" name="txt_chemistry_incl" value="">
         </div>
         <div class="pure-u-1 pure-u-md-1-24 pure-u-xl-1-24">
         </div>
         <div class="pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
-            <label class="chemistry_labels" for="txt_chemistry_excl">Excludes:</label>
-            <input class="pure-u-1-2" type="text" id="txt_chemistry_excl" name="txt_chemistry_excl" value="">
+            <label class="chemistry_labels pure-u-1" for="txt_chemistry_excl">Excludes:</label>
+            <input class="pure-u-1" type="text" id="txt_chemistry_excl" name="txt_chemistry_excl" value="">
         </div>
         <input type="hidden" id="chemistry_incl_txt">
         <input type="hidden" id="chemistry_excl_txt">
@@ -73,7 +73,7 @@
             <label for="txt_general">General</label>
         </div>
         <div class="pure-u-1 pure-u-md-16-24 pure-u-xl-16-24">
-            <input type="text" id="txt_general" name="txt_general" value="">
+            <input type="text" class="pure-u-1" id="txt_general" name="txt_general" value="">
         </div>
     </div>
 
@@ -92,7 +92,7 @@
         </div>
         <div class="pure-u-1 pure-u-md-16-24 pure-u-xl-16-24">
             <div class="pure-u-10-24 pure-u-md-6-24 pure-u-xl-6-24">
-                <select name="sel_sort" id="sel_sort" size="1">
+                <select name="sel_sort" id="sel_sort" size="1" class="pure-u-1">
                     <option value="7052">Names</option>
                     <option value="7069">RRUFF ID</option>
                     <option value="7056">Ideal Chemistry</option>
@@ -101,7 +101,7 @@
                 </select>
             </div>
             <div class="pure-u-10-24 pure-u-md-6-24 pure-u-xl-6-24">
-                <select name="sel_sort_dir" id="sel_sort_dir" size="1">
+                <select name="sel_sort_dir" id="sel_sort_dir" size="1" class="pure-u-1">
                     <option value="asc">asc</option>
                     <option value="desc">desc</option>
                 </select>
