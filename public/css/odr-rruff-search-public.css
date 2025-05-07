@@ -11,6 +11,7 @@ table.search_form {
     padding: 12px 6px;
 }
 
+/*
 .search_form input[type=email],
 .search_form input[type=number],
 .search_form input[type=password],
@@ -26,15 +27,16 @@ table.search_form {
     font-size: 13px;
 
 }
+ */
 
 
 #rruff-search-form-submit,
 #reset_sample_search,
-.search_form input[type=button],
-.search_form input[type=submit] {
+#rruff-search-form input[type=button],
+#rruff-search-form input[type=submit] {
     display: inline-block;
-    height: 24px;
-    line-height: 24px;
+    height: 32px;
+    line-height: 32px;
     margin-right: 10px;
     padding-right: 20px;
     padding-left: 20px;
@@ -62,26 +64,18 @@ table.search_form {
     filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=2,Color=#33000000,Positive=true);
 }
 
-/*
-.search_form input[type=button]:active,
-.search_form input[type=submit]:active {
-    margin-top: 2px;
-    margin-bottom: 13px;
-
-    -moz-box-shadow:0px 1px 0px rgba(255,255,255,0.5);
-    -webkit-box-shadow:0px 1px 0px rgba(255,255,255,0.5);
-    box-shadow:0px 1px 0px rgba(255,255,255,0.5);
-    -ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ccffffff,Positive=true)";
-    filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ccffffff,Positive=true);
+#rruff-search-form > div:first-child {
+    padding-top: 16px !important;
 }
- */
 
-.search_form input[type=button]:disabled,
-.search_form input[type=submit]:disabled {
+#rruff-search-form input[type=button]:disabled,
+#rruff-search-form input[type=submit]:disabled {
     background-color: rgba(82, 171, 117, 0.4);
 }
 
-
+.rruff-search-form-section {
+    margin-bottom: 12px;
+}
 
 
 th.search_form {
@@ -128,58 +122,28 @@ Search Form Definitions
 #rruff-search-form label {
     color: white !important;
     font-weight: bold !important;
-    padding-left: 12px !important;
     font-size: 16px !important;
+}
+
+#rruff-search-form label.chemistry_labels {
+    font-size: 15px !important;
 }
 
 #rruff-search-form input,
+#rruff-search-form select,
 #rruff-search-form input[type=text] {
-    padding: 8px 8px 8px 8px !important;
+    /* padding: 6px 10px !important; */
     font-size: 16px !important;
     font-style: normal !important;
     font-weight: 400 !important;
-    height: 40px !important;
+    height: 32px !important;
+    line-height: 36px !important;
     border-radius: 4px !important;
 }
 
-
-#txt_chemistry_excl,
-#txt_chemistry_incl {
-    width: 49% !important;
-}
-
-#rruff-search-form input[type=text] {
-    width: 62%;
-}
-
-.label_wrapper {
-    text-align: right;
-    width: 33% !important;
-    height: 40px;
-}
-
-.input_wrapper_right_side {
-    display: inline-block;
-    height: 44px;
-    margin-right: 26px;
-    width: 62%;
-    float: right;
-}
-
-.chemistry_labels {
-    text-align: left !important;
-    height: 20px;
-}
-.input_wrapper {
-    padding: 0 0 10px 0;
-}
-
-.input_wrapper label {
-    width: 33%;
-}
-
-.first_input {
-    padding-top: 12px;
+#rruff-search-form .section-labels {
+    text-align: right !important;
+    padding-right: 12px;
 }
 
 .submit_wrapper {
@@ -201,10 +165,13 @@ a.chemistry_lookup_link {
     text-decoration: underline;
     font-size: 16px;
     font-weight: bold;
-    line-height: 40px;
+    line-height: 32px;
     display: block;
 }
 
+a.chemistry_lookup_link {
+    margin-top: 26px;
+}
 
 .AMCSDAuthorAlpha,
 .AMCSDMineralAlpha {
@@ -247,44 +214,50 @@ label > a {
 .search_form label {
     vertical-align: middle;
     line-height: 20px;
-    display: inline-block;
+    /*
     min-width: 200px;
+    display: inline-block;
     margin-right: 12px;
+     */
     font-size: 14px;
     font-weight: bold;
     text-align: right;
 }
+
 @media screen and (max-width: 460px) {
-
-    /* Deal with Elementor Padding Issues */
-    .elementor-top-section {
-        padding: 20px 0px 0px 0px !important;
-    }
-    .elementor-top-section .elementor-widget-container {
-        margin: 0 0 30px 0 !important;
-    }
-    /* END Deal with Elementor Padding Issues */
-
 
     #rruff-periodic-table {
         transform-origin: left top;
         transform: scale(0.7);
         margin-left: calc(16px + (100% - 360px)/2);
-        margin-bottom: -100px;
-        /*
-        margin-left: -10px;
-        padding-left: 0;
-        */
-        /* left: calc(-50px + (100% - 360px)/2); */
     }
 
+    #div_periodic_table_contents {
+        padding-bottom: 20px;
+
+    }
+
+    #rruff-search-form > div:first-child {
+        padding-top: 0 !important;
+    }
+
+    a.chemistry_lookup_link:active, a.chemistry_lookup_link:visited, a.chemistry_lookup_link:hover, a.chemistry_lookup_link {
+        margin-left: 0;
+        margin-top: 12px;
+    }
+
+    .rruff-search-form-section select {
+        margin-bottom: 8px
+    }
 
     #rruff-search-form {
+        width: 96% !important;
         padding-left: 40px;
         padding-right: 20px;
         width: 360px;
         margin-left: auto;
         margin-right: auto;
+        min-width: auto !important;
     }
 
     .input_wrapper {
@@ -298,7 +271,6 @@ label > a {
     .chemistry_lookup_link {
         line-height: 12px;
         display: inline-block;
-        margin-left: 60px;
     }
 
     .search_form label {
@@ -311,14 +283,22 @@ label > a {
         text-align: left;
     }
 
+    #rruff-search-form .section-labels {
+        text-align: left !important;
+        padding-right: 0;
+    }
+
 }
 
 /* Designing for 380px min width */
-@media screen and (min-width: 461px) and (max-width: 688px) {
+@media screen and (min-width: 461px) and (max-width: 767px) {
     /* Deal with Elementor Padding Issues */
+    /*
     .elementor-top-section {
         padding: 20px 0px 0px 0px !important;
     }
+
+     */
     .elementor-top-section .elementor-widget-container {
         margin: 0 0 30px 0 !important;
     }
@@ -345,6 +325,7 @@ label > a {
         width: 360px;
         margin-left: auto;
         margin-right: auto;
+        min-width: auto !important;
     }
 
     .input_wrapper {
@@ -358,7 +339,6 @@ label > a {
     .chemistry_lookup_link {
         line-height: 12px;
         display: inline-block;
-        margin-left: 60px;
     }
 
     .search_form label {
@@ -371,6 +351,10 @@ label > a {
         text-align: left;
     }
 
+    #rruff-search-form .section-labels {
+        text-align: left !important;
+        padding-right: 0;
+    }
 }
 
 
@@ -501,5 +485,5 @@ table.search_form th {
 #periodic_table_actinides_alt {
     border: none;
     font-weight: bold;
-    color: rgba(255,255,255, 0.8) !important;
+    color: rgba(0,0,0,0.8);
 }

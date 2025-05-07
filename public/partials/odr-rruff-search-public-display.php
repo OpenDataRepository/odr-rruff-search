@@ -24,7 +24,7 @@
 ?>
 
 <script type="text/javascript">
-    // Declar variables for Search JS
+    // Declare variables for Search JS
     let datatype_id = "<?php echo $odr_rruff_search_vars['datatype_id']; ?>";
     let general_search = "<?php echo $odr_rruff_search_vars['general_search']; ?>";
     let chemistry_incl = "<?php echo $odr_rruff_search_vars['chemistry_incl']; ?>";
@@ -35,40 +35,46 @@
 
 
 <form id="rruff-search-form-wrapper">
-<div id="rruff-search-form" class="search_form">
-    <div class="input_wrapper first_input">
-        <label for="txt_mineral">
-            <a href="#ODRMineralList" rel="modal:open" class="AMCSDHelperLink">Mineral</a>
-        </label>
-        <input type="text" id="txt_mineral" name="txt_mineral" size="30" maxlength="255" value="" />
+<div id="rruff-search-form" class="sarch_form">
+    <div class="rruff-search-form-section pure-u-1">
+        <div class="section-labels pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
+            <label for="txt_mineral">
+                <a href="#ODRMineralList" rel="modal:open" class="AMCSDHelperLink">Mineral</a>
+            </label>
+        </div>
+        <div class="pure-u-1 pure-u-md-16-24 pure-u-xl-16-24">
+            <input type="text" id="txt_mineral" name="txt_mineral" value="" class="pure-u-1" />
+        </div>
         <input type="hidden" id="mineral_ids" name="mineral_ids" value="">
         <input type="hidden" id="txt_tag_ids" name="txt_tag_ids" value="">
         <!-- <a class="page_link_1" href="Javascript:MM_openBrWindow('https://rruff.info/index.php/r=lookup_minerals/calling_form=frm_sample_search/name_field=txt_mineral','MineralLookup','scrollbars=yes,width=800,height=600')">lookup</a> -->
     </div>
 
-    <div class="input_wrapper">
-        <div class="input_wrapper_right_side chemistry_labels">
-            <label for="txt_chemistry_incl">Chemistry Includes:</label>
-            <label for="txt_chemistry_excl">Chemistry Excludes:</label>
-        </div>
-        <div class="label_wrapper chemistry_labels"></div>
-    </div>
-
-    <div class="input_wrapper">
-        <div class="input_wrapper_right_side">
-            <input type="text" id="txt_chemistry_incl" name="txt_chemistry_incl" value="" size="30" maxlength="255">
-            <input type="hidden" id="chemistry_incl_txt">
-            <input type="text" id="txt_chemistry_excl" name="txt_chemistry_excl" value="" size="30" maxlength="255">
-            <input type="hidden" id="chemistry_excl_txt">
-        </div>
-        <div class="label_wrapper">
+    <div class="rruff-search-form-section pure-u-1">
+        <div class="section-labels pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
             <a class="chemistry_lookup_link">Chemistry</a>
         </div>
+        <div class="pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
+            <label class="chemistry_labels" for="txt_chemistry_incl">Includes:</label>
+            <input class="pure-u-1-2" type="text" id="txt_chemistry_incl" name="txt_chemistry_incl" value="">
+        </div>
+        <div class="pure-u-1 pure-u-md-1-24 pure-u-xl-1-24">
+        </div>
+        <div class="pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
+            <label class="chemistry_labels" for="txt_chemistry_excl">Excludes:</label>
+            <input class="pure-u-1-2" type="text" id="txt_chemistry_excl" name="txt_chemistry_excl" value="">
+        </div>
+        <input type="hidden" id="chemistry_incl_txt">
+        <input type="hidden" id="chemistry_excl_txt">
     </div>
 
-    <div class="input_wrapper">
-        <label for="txt_general">General</label>
-        <input type="text" id="txt_general" name="txt_general" value="" size="30" maxlength="255">
+    <div class="rruff-search-form-section pure-u-1">
+        <div class="section-labels pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
+            <label for="txt_general">General</label>
+        </div>
+        <div class="pure-u-1 pure-u-md-16-24 pure-u-xl-16-24">
+            <input type="text" id="txt_general" name="txt_general" value="">
+        </div>
     </div>
 
     <!--
@@ -80,28 +86,41 @@
     redirect_url = "/odr/rruff_sample#/odr/search/display/2010"]
     -->
 
-    <div class="input_wrapper">
-        <label for="sel_sort">Sort By</label>
-        <select name="sel_sort" id="sel_sort" size="1">
-            <option value="7052">Names</option>
-            <option value="7069">RRUFF ID</option>
-            <option value="7056">Ideal Chemistry</option>
-            <option value="7071">Source</option>
-            <option value="7075">Locality</option>
-        </select>
-        <select name="sel_sort_dir" id="sel_sort_dir" size="1">
-            <option value="asc">asc</option>
-            <option value="desc">desc</option>
-        </select>
+    <div class="rruff-search-form-section pure-u-1">
+        <div class="section-labels pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
+            <label for="sel_sort">Sort By</label>
+        </div>
+        <div class="pure-u-1 pure-u-md-16-24 pure-u-xl-16-24">
+            <div class="pure-u-10-24 pure-u-md-6-24 pure-u-xl-6-24">
+                <select name="sel_sort" id="sel_sort" size="1">
+                    <option value="7052">Names</option>
+                    <option value="7069">RRUFF ID</option>
+                    <option value="7056">Ideal Chemistry</option>
+                    <option value="7071">Source</option>
+                    <option value="7075">Locality</option>
+                </select>
+            </div>
+            <div class="pure-u-10-24 pure-u-md-6-24 pure-u-xl-6-24">
+                <select name="sel_sort_dir" id="sel_sort_dir" size="1">
+                    <option value="asc">asc</option>
+                    <option value="desc">desc</option>
+                </select>
+            </div>
+        </div>
     </div>
 
-    <div class="input_wrapper submit_wrapper">
-        <label for="submit"></label>
-        <input id="rruff-search-form-submit" name="submit" type="submit" value="search">&nbsp;
-        <input id="reset_sample_search" type="button" name="reset_sample_search" value="reset">
-        <!-- <a class="page_link_1" href="#" onclick="new Effect.toggle('div_display_options','blind');return false;">display options</a> -->
+    <div class="rruff-search-form-section pure-u-1">
+        <div class="pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
+            <label for="submit"></label>
+        </div>
+
+        <div class="pure-u-1 pure-u-md-16-24 pure-u-xl-16-24">
+            <input id="rruff-search-form-submit" name="submit" type="submit" value="search">&nbsp;
+            <input id="reset_sample_search" type="button" name="reset_sample_search" value="reset">
+        </div>
     </div>
 </div>
+
 </form>
 
     <!-- <tr>
@@ -153,7 +172,7 @@
     </tr> -->
 
 <div id="div_periodic_table" style="overflow: visible;">
-    <div id="div_periodic_table_contents" style="min-height: 200px; padding-top: 10px;">
+    <div id="div_periodic_table_contents">
         <table id="rruff-periodic-table">
             <tbody><tr>
                 <td><div style="display: block; text-align:center; cursor: pointer;  background:#a0ffa0;" class="periodic_table chem_ele_unselected" id="periodic_table_H">H</div></td>

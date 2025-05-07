@@ -171,12 +171,12 @@ let rruff_minerals = [];
 
 			$(".chemistry_lookup_link").click(
 				function () {
-					$("#div_periodic_table").slideToggle('300',
+					$("#div_periodic_table").slideToggle('100',
 						function () {
 							if ($("#div_periodic_table:visible") && $(window).width() < 600) {
 								$('html, body').animate({
 									scrollTop: ($("#div_periodic_table").offset().top - 110)
-								}, 2000);
+								}, 300);
 							}
 						})
 				}
