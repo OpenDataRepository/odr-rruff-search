@@ -54,15 +54,15 @@
         <div class="section-labels pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
             <a class="chemistry_lookup_link">Chemistry</a>
         </div>
-        <div class="pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
-            <label class="chemistry_labels pure-u-1" for="txt_chemistry_incl">Includes:</label>
-            <input class="pure-u-1" type="text" id="txt_chemistry_incl" name="txt_chemistry_incl" value="">
-        </div>
-        <div class="pure-u-1 pure-u-md-1-24 pure-u-xl-1-24">
-        </div>
-        <div class="pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
-            <label class="chemistry_labels pure-u-1" for="txt_chemistry_excl">Excludes:</label>
-            <input class="pure-u-1" type="text" id="txt_chemistry_excl" name="txt_chemistry_excl" value="">
+        <div class="pure-u-1 pure-u-md-16-24 pure-u-xl-16-24">
+            <div class="pure-u-1">
+                <label class="chemistry_labels pure-u-1" for="txt_chemistry_incl">Includes:</label>
+                <input class="pure-u-1" type="text" id="txt_chemistry_incl" name="txt_chemistry_incl" value="">
+            </div>
+            <div class="pure-u-1">
+                <label class="chemistry_labels pure-u-1" for="txt_chemistry_excl">Excludes:</label>
+                <input class="pure-u-1" type="text" id="txt_chemistry_excl" name="txt_chemistry_excl" value="">
+            </div>
         </div>
         <input type="hidden" id="chemistry_incl_txt">
         <input type="hidden" id="chemistry_excl_txt">
