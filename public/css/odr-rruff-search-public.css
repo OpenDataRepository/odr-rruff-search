@@ -130,6 +130,7 @@ Search Form Definitions
 }
 
 #rruff-search-form label.chemistry_labels {
+    padding-top: 4px;
     font-size: 15px !important;
 }
 

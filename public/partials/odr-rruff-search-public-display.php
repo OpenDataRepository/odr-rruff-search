@@ -36,7 +36,7 @@
 
 <form id="rruff-search-form-wrapper">
 <div id="rruff-search-form" class="sarch_form">
-    <div class="rruff-search-form-section pure-u-1">
+    <div class="pure-u-1">
         <div class="section-labels pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
             <label for="txt_mineral">
                 <a href="#ODRMineralList" rel="modal:open" class="AMCSDHelperLink">Mineral</a>
