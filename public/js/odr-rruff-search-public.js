@@ -195,15 +195,14 @@ let rruff_minerals = [];
 				$('.periodic_table').removeClass('excluded');
 			});
 
-
-			$("#rruff-search-form-wrapper").submit(
-				function () {
+			jQuery("#rruff-search-form-wrapper input").keypress(function (e) {
+				if (e.which === 13) {
 					submitSearchForm();
 					return false;
 				}
-			);
+			});
 
-			$("#rruff-search-form-submit").click(
+			jQuery("#rruff-search-form-submit").click(
 				// Use BtoA to encode
 				function () {
 					submitSearchForm();

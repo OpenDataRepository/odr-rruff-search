@@ -115,7 +115,7 @@
         </div>
 
         <div class="pure-u-1 pure-u-md-16-24 pure-u-xl-16-24">
-            <input id="rruff-search-form-submit" name="submit" type="submit" value="search">&nbsp;
+            <input id="rruff-search-form-submit" name="submit" type="button" value="search">&nbsp;
             <input id="reset_sample_search" type="button" name="reset_sample_search" value="reset">
         </div>
     </div>
