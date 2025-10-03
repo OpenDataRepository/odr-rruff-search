@@ -213,11 +213,11 @@ let rruff_minerals = [];
 
 			// Prepare Mineral Name Modal
 			jQuery(".AMCSDMineralNameLetter").click(function () {
-				filterMineralNameList(jQuery(this).html())
+				rruffFilterMineralNameList(jQuery(this).html())
 			});
 
 			// TODO Add filtering for valid AMCSD records
-			filterMineralNameList("A")
+			rruffFilterMineralNameList("A")
 
 			jQuery(".AMCSDMineralName").click(function () {
 				// If already selected, deselect and remove from list
@@ -235,7 +235,8 @@ let rruff_minerals = [];
 						)
 					}
 					jQuery(this).removeClass('AMCSDMineralNameSelected')
-				} else {
+				}
+				else if (!jQuery(this).hasClass('AMCSDNotFound')) {
 					// else select mineral
 					if (jQuery("#txt_mineral").val().length === 0) {
 						jQuery("#txt_mineral").val(
@@ -452,7 +453,7 @@ let rruff_minerals = [];
 })( jQuery );
 
 
-function filterMineralNameList(letter) {
+function rruffFilterMineralNameList(letter) {
 	jQuery(".AMCSDMineralName").hide()
 	jQuery(".AMCSDMineralName").removeClass("AMCSDNotFound")
 
