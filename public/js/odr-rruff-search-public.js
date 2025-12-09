@@ -279,25 +279,25 @@ let rruff_minerals = [];
 		}
 
 		// Get chemistry includes
-		if($("#chemistry_incl_txt").val()) {
+		if($("#txt_chemistry_incl").val()) {
 			// {"dt_id":"3","21":"C"}
-			search_json[chemistry_incl] = $("#chemistry_incl_txt").val().trim().replaceAll(/,/g,' ');
+			search_json[chemistry_incl] = $("#txt_chemistry_incl").val().trim().replaceAll(/,/g,' ');
 		}
 
 		// Get chemistry excludes
-		if($("#chemistry_excl_txt").val()) {
+		if($("#txt_chemistry_excl").val()) {
 			// {"dt_id":"3","21":"!Ni"}
 			// {"dt_id":"3","21":"!Ni,!O"}
 			if(search_json[chemistry_incl]) {
 				search_json[chemistry_incl] += ' ';
-				$("#chemistry_excl_txt").val().split(/,/).forEach(
+				$("#txt_chemistry_excl").val().split(/,/).forEach(
 					function(item) {
 						search_json[chemistry_incl] += '!' + item.trim() + ' ';
 					}
 				);
 			}
 			else {
-				$("#chemistry_excl_txt").val().split(/,/).forEach(
+				$("#txt_chemistry_excl").val().split(/,/).forEach(
 					function(item) {
 						search_json[chemistry_incl] += '!' + item.trim() + ' ';
 					}
@@ -305,12 +305,12 @@ let rruff_minerals = [];
 			}
 		}
 
-		/*
-			$criteria['sort_by'] = array(
-                  	'sort_dir' => $sort_dir,
-                  	'sort_df_id' => $sort_df_id
-              	);
-		 */
+        /*
+            $criteria['sort_by'] = array(
+                      'sort_dir' => $sort_dir,
+                      'sort_df_id' => $sort_df_id
+                  );
+         */
 
 		// Get sort
 		if(
