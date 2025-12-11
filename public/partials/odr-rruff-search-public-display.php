@@ -361,7 +361,7 @@
                 <span class="AMCSDMineralNameLetter">Y</span>
                 <span class="AMCSDMineralNameLetter">Z</span>
                 <span class="AMCSDCloseModal"><a href="#close-modal" rel="modal:close">[ close ]</a></span>
-                <span class="AMCSDCloseModal" onclick="clearMineralNameList()">[ clear ]</span>
+                <span class="AMCSDCloseModal" onclick="rruffClearMineralNameList()">[ clear ]</span>
             </td>
         </tr>
         <?php

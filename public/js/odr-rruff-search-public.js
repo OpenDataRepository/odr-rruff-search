@@ -222,7 +222,7 @@ let rruff_minerals = [];
 			jQuery(".AMCSDMineralName").click(function () {
 				// If already selected, deselect and remove from list
 				if (jQuery(this).hasClass('AMCSDMineralNameSelected')) {
-					let mineral_name = jQuery(this).html();
+					let mineral_name = '"' + jQuery(this).html() + '"';
 					let txt_mineral = jQuery("#txt_mineral").val();
 					let mineral_name_comma = mineral_name + ', ';
 					if (txt_mineral.match(mineral_name_comma)) {
@@ -240,12 +240,12 @@ let rruff_minerals = [];
 					// else select mineral
 					if (jQuery("#txt_mineral").val().length === 0) {
 						jQuery("#txt_mineral").val(
-							jQuery(this).html()
+							'"' + jQuery(this).html() + '"'
 						)
 					} else {
 						jQuery("#txt_mineral").val(
 							jQuery("#txt_mineral").val() + ', ' +
-							jQuery(this).html()
+							'"' + jQuery(this).html() + '"'
 						)
 					}
 					jQuery(this).addClass('AMCSDMineralNameSelected')
@@ -257,10 +257,9 @@ let rruff_minerals = [];
 	function submitSearchForm() {
 		// UnicodeDecodeB64("JUUyJTlDJTkzJTIwJUMzJUEwJTIwbGElMjBtb2Rl"); // "✓ à la mode"
 		// Get mineral names or RRUFF IDS from txt_mineral
-		let search_json = {
-			"dt_id": datatype_id
-		};
-		if($("#txt_mineral").val().trim().match(/^R\d+$/i)) {
+		let search_json = {}
+
+        if($("#txt_mineral").val().trim().match(/^R\d+$/i)) {
 			// display specific mineral id
 			// {"dt_id":"3","34":"r040034"}
 			search_json[sample_id] = $("#txt_mineral").val().trim();
@@ -311,18 +310,23 @@ let rruff_minerals = [];
                       'sort_df_id' => $sort_df_id
                   );
          */
+        search_json.dt_id = datatype_id;
+        // Get sort
+        if(
+            $('#sel_sort').find(':selected').val()
+            && $('#sel_sort_dir').find(':selected').val()
+        ) {
+            search_json['sort_by'] = []
+            search_json['sort_by'][0] = { };
+            search_json['sort_by'][0]['sort_df_id'] = $('#sel_sort').find(':selected').val();
+            search_json['sort_by'][0]['sort_dir'] = $('#sel_sort_dir').find(':selected').val();
+        }
 
-		// Get sort
-		if(
-			$('#sel_sort').find(':selected').val()
-			&& $('#sel_sort_dir').find(':selected').val()
-		) {
-			search_json['sort_by'] = { };
-			search_json['sort_by']['sort_df_id'] = $('#sel_sort').find(':selected').val();
-			search_json['sort_by']['sort_dir'] = $('#sel_sort_dir').find(':selected').val();
-		}
+        // console.log("SJ", search_json);
 
-		// Encode to base 64 - atob()
+        // alert(JSON.stringify(search_json));return false;
+
+        // Encode to base 64 - atob()
 	    let search_string = b64EncodeUnicode(JSON.stringify(search_json)); // "JUUyJTlDJTkzJTIwJUMzJUEwJTIwbGElMjBtb2Rl"
 		search_string = search_string.replace(/==$/, '');
 		search_string = search_string.replace(/=$/, '');
@@ -331,7 +335,7 @@ let rruff_minerals = [];
 			window.location = redirect_url, true
 		}
 		else {
-			let redirect =  redirect_url + "/" + search_string + "/1";
+			let redirect =  redirect_url + "/" + search_string;
 			window.location = redirect, true
 		}
 	}
@@ -452,6 +456,16 @@ let rruff_minerals = [];
 
 })( jQuery );
 
+function rruffClearMineralNameList() {
+    // Clear minerals_selected array
+    minerals_selected = [];
+    jQuery(".AMCSDMineralNameLetter").removeClass('AMCSDAlphaSelected');
+
+    jQuery(".AMCSDMineralName").each(function () {
+        jQuery(this).removeClass('AMCSDMineralNameSelected')
+        jQuery("#txt_mineral").val('');
+    })
+}
 
 function rruffFilterMineralNameList(letter) {
 	jQuery(".AMCSDMineralName").hide()
