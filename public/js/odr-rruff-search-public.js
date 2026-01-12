@@ -1,4 +1,5 @@
 let rruff_minerals = [];
+let cellparams = [];
 (function( $ ) {
 	'use strict';
 
