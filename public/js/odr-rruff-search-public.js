@@ -36,8 +36,8 @@ let rruff_minerals = [];
 			// jQuery.getScript( '/odr_rruff/uploads/IMA/master_tag_data.js'),
 			// jQuery.getScript( '/odr_rruff/uploads/IMA/pm_tag_data.js'),
 			// Used for getting the
-			jQuery.getScript('/odr_rruff/uploads/IMA/cellparams_data.js'),
-			jQuery.getScript('/odr_rruff/uploads/IMA/cellparams_data_update.js'),
+			// jQuery.getScript('/odr_rruff/uploads/IMA/cellparams_data.js'),
+			// jQuery.getScript('/odr_rruff/uploads/IMA/cellparams_data_update.js'),
 			jQuery.Deferred(function (deferred) {
 				jQuery(deferred.resolve);
 			})
