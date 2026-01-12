@@ -485,7 +485,7 @@ function rruffFilterMineralNameList(letter) {
 			jQuery(item).show()
 			if(!hiLoSearch(mineral_name, rruff_minerals)) {
 				// fade minerals with no AMCSD record
-				jQuery(item).addClass('AMCSDNotFound')
+				// jQuery(item).addClass('AMCSDNotFound')
 			}
 		}
 	}
