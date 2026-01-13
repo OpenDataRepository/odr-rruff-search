@@ -366,11 +366,13 @@
         </tr>
         <?php
         try {
+            $mineral_names = [];
             include(__DIR__ . '/../../../../data-publisher/web/uploads/IMA/mineral_names.php');
             include(__DIR__ . '/../../../../data-publisher/web/uploads/IMA/mineral_names_update.php');
             $count = 0;
             $column_count = 0;
             $current_letter = 'a';
+            $mineral_names = array_unique($mineral_names);
             asort($mineral_names, SORT_LOCALE_STRING);
             foreach ($mineral_names as $mineral_name) {
                 // Check if we match current letter
