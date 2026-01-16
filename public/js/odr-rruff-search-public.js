@@ -333,10 +333,12 @@ let cellparams = [];
 		search_string = search_string.replace(/=$/, '');
 		// https://beta.rruff.net/odr/rruff_samples#/odr/search/display/7/eyJkdF9pZCI6IjMifQ/1
 		if(redirect_url === '/odr/network') {
+			console.log("redirect_url network", redirect_url);
 			window.location = redirect_url, true
 		}
 		else {
 			let redirect =  redirect_url + "/" + search_string;
+			console.log("redirect_url general", redirect_url);
 			window.location = redirect, true
 		}
 	}
