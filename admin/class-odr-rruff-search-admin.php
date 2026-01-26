@@ -52,6 +52,69 @@ class Odr_Rruff_Search_Admin {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
+		add_action('admin_init', array($this, 'odrRegisterSettings'));
+		add_action('admin_menu', array($this, 'addPluginAdminMenu'), 9);
+
+	}
+
+	public function addPluginAdminMenu()
+	{
+		add_menu_page(
+			$this->plugin_name,
+			'ODR RRUFF Search',
+			'administrator',
+			$this->plugin_name,
+			array($this, 'displayPluginAdminSettings'),
+			'dashicons-chart-area',
+			26
+		);
+	}
+
+	public function displayPluginAdminSettings()
+	{
+		require_once 'partials/' . $this->plugin_name . '-admin-settings-display.php';
+	}
+
+	function odrRegisterSettings()
+	{
+		register_setting(
+			'odr_rruff_search_plugin_options',
+			'odr_rruff_search_plugin_options'
+		);
+		add_settings_section(
+			'field_settings',
+			'Field Settings',
+			array($this, 'odr_rruff_search_plugin_section_text'),
+			$this->plugin_name
+		);
+
+		add_settings_field(
+			'odr_rruff_search_help_text',
+			'Search Help Text',
+			array($this, 'odr_rruff_search_help_text'),
+			$this->plugin_name,
+			'field_settings'
+		);
+	}
+
+	function odr_rruff_search_plugin_section_text()
+	{
+		echo '<p>Configure the RRUFF Search plugin settings</p>';
+	}
+
+	function odr_rruff_search_help_text()
+	{
+		$options = get_option('odr_rruff_search_plugin_options');
+		$content = isset($options['help_text']) ? $options['help_text'] : '';
+		$editor_id = 'odr_rruff_search_help_text';
+		$settings = array(
+			'textarea_name' => 'odr_rruff_search_plugin_options[help_text]',
+			'textarea_rows' => 10,
+			'media_buttons' => true,
+			'teeny' => false,
+			'quicktags' => true,
+		);
+		wp_editor($content, $editor_id, $settings);
 	}
 
 	/**

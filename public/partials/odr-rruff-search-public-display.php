@@ -23,6 +23,8 @@
 
 ?>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <script type="text/javascript">
     // Declare variables for Search JS
     let datatype_id = "<?php echo $odr_rruff_search_vars['datatype_id']; ?>";
@@ -116,13 +118,21 @@
 
         <div class="pure-u-1 pure-u-md-16-24 pure-u-xl-16-24">
             <input id="rruff-search-form-submit" name="submit" type="button" value="search">&nbsp;
-            <input id="reset_sample_search" type="button" name="reset_sample_search" value="reset">
+            <input id="reset_sample_search" type="button" name="reset_sample_search" value="reset">&nbsp;
+            <i id="rruff-search-help-toggle" class="fa-regular fa-circle-question" style="cursor: pointer; font-size: 1.2em;" title="Search Help"></i>
+        </div>
+    </div>
+
+    <div id="rruff-search-help" class="rruff-search-form-section pure-u-1" style="display: none;">
+        <div class="pure-u-1 pure-u-md-7-24 pure-u-xl-7-24"></div>
+        <div class="pure-u-1 pure-u-md-16-24 pure-u-xl-16-24">
+            <div style="padding: 10px;">
+                <?php echo wp_kses_post(isset($odr_rruff_search_plugin_options['help_text']) ? $odr_rruff_search_plugin_options['help_text'] : ''); ?>
+            </div>
         </div>
     </div>
 </div>
-
 </form>
-
     <!-- <tr>
         <td colspan="3">
             <div id="div_display_options" style="overflow: visible;">

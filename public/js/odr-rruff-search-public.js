@@ -196,6 +196,11 @@ let cellparams = [];
 				$('.periodic_table').removeClass('excluded');
 			});
 
+			// Help toggle button
+			$("#rruff-search-help-toggle").click(function () {
+				$("#rruff-search-help").slideToggle('fast');
+			});
+
 			jQuery("#rruff-search-form-wrapper input").keypress(function (e) {
 				if (e.which === 13) {
 					submitSearchForm();
@@ -210,7 +215,6 @@ let cellparams = [];
 					return false;
 				}
 			);
-
 
 			// Prepare Mineral Name Modal
 			jQuery(".AMCSDMineralNameLetter").click(function () {

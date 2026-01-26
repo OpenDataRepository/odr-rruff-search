@@ -135,8 +135,11 @@ class Odr_Rruff_Search_Public {
         wp_enqueue_script( $this->plugin_name . '-js');
         wp_enqueue_script( $this->plugin_name . '-modal-js');
 
+        // Get plugin options from admin settings
+        $odr_rruff_search_plugin_options = get_option('odr_rruff_search_plugin_options');
+
         ob_start();
-        include_once('partials/odr-rruff-search-public-display.php');
+        include( plugin_dir_path( __FILE__ ) . 'partials/odr-rruff-search-public-display.php' );
         $search_block = ob_get_contents();
         ob_end_clean();
         return $search_block;
