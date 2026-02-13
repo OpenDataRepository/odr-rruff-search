@@ -123,6 +123,7 @@ Search Form Definitions
     margin-bottom: 30px !important;
 }
 
+
 #rruff-search-form label {
     color: white !important;
     font-weight: bold !important;
@@ -134,10 +135,18 @@ Search Form Definitions
     font-size: 15px !important;
 }
 
+#rruff-search-form input[type=email],
+#rruff-search-form input[type=number],
+#rruff-search-form input[type=password],
+#rruff-search-form input[type=reset],
+#rruff-search-form input[type=search],
+#rruff-search-form input[type=tel],
+#rruff-search-form input[type=text],
+#rruff-search-form input[type=url],
 #rruff-search-form input,
 #rruff-search-form select,
-#rruff-search-form input[type=text] {
-    /* padding: 6px 10px !important; */
+#rruff-search-form textarea {
+    padding: 4px !important;
     font-size: 16px !important;
     font-style: normal !important;
     font-weight: 400 !important;
