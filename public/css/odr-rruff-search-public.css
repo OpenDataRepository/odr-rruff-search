@@ -143,7 +143,6 @@ Search Form Definitions
 #rruff-search-form input[type=tel],
 #rruff-search-form input[type=text],
 #rruff-search-form input[type=url],
-#rruff-search-form input,
 #rruff-search-form select,
 #rruff-search-form textarea {
     padding: 4px !important;
