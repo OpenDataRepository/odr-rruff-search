@@ -377,14 +377,17 @@
         <?php
         try {
             $mineral_names = [];
+            $rruff_mineral_names = [];
             include(__DIR__ . '/../../../../data-publisher/web/uploads/IMA/mineral_names.php');
             include(__DIR__ . '/../../../../data-publisher/web/uploads/IMA/mineral_names_update.php');
+            include(__DIR__ . '/../../../../data-publisher/web/uploads/IMA/rruff_mineral_names.php');
+            include(__DIR__ . '/../../../../data-publisher/web/uploads/IMA/rruff_mineral_names_update.php');
             $count = 0;
             $column_count = 0;
             $current_letter = 'a';
             $mineral_names = array_unique($mineral_names);
             asort($mineral_names, SORT_LOCALE_STRING);
-            foreach ($mineral_names as $mineral_name) {
+            foreach ($mineral_names as $mineral_id => $mineral_name) {
                 // Check if we match current letter
                 if(mb_strtolower(substr($mineral_name,0, 1)) !== $current_letter) {
                     // Force count to 4
@@ -396,7 +399,14 @@
                 if ($count % 4 === 0) {
                     ?><tr><?php
                 }
-                ?><td class="AMCSDMineralName"><?php print $mineral_name ?></td><?php
+                ?><td class="AMCSDMineralName <?php
+                    if(!isset($rruff_mineral_names[$mineral_id])) {
+                        ?> AMCSDNotFound<?php
+                    }
+                    else {
+                        ?> AMCSDFound<?php
+                    }
+                ?>"><?php print $mineral_name ?></td><?php
                 $column_count++;
                 if ($column_count === 4) {
                     ?></tr><?php

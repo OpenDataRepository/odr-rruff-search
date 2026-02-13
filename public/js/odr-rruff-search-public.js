@@ -476,7 +476,7 @@ function rruffClearMineralNameList() {
 
 function rruffFilterMineralNameList(letter) {
 	jQuery(".AMCSDMineralName").hide()
-	jQuery(".AMCSDMineralName").removeClass("AMCSDNotFound")
+	// jQuery(".AMCSDMineralName").removeClass("AMCSDNotFound")
 
 	let regex = new RegExp('^' + letter, 'i');
 	let mineral_list_objects = jQuery(".AMCSDMineralName");
@@ -489,10 +489,6 @@ function rruffFilterMineralNameList(letter) {
 		if (mineral_name.match(regex)) {
 			// HiLoSearch to find mineral....??
 			jQuery(item).show()
-			if(!hiLoSearch(mineral_name, rruff_minerals)) {
-				// fade minerals with no AMCSD record
-				// jQuery(item).addClass('AMCSDNotFound')
-			}
 		}
 	}
 }
