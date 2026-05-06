@@ -419,3 +419,177 @@
         ?>
     </table>
 </div>
+
+<script type="text/javascript">
+    // ============================================================
+    // ODR RRUFF Search — sessionStorage persistence for form state
+    // ------------------------------------------------------------
+    // Saves the search form state when the user clicks the search
+    // button, and restores it on page load if the saved state is
+    // less than one day old. sessionStorage is tab-scoped so each
+    // tab keeps an independent search state.
+    // ============================================================
+    (function ($) {
+        var STORAGE_KEY = 'odr_rruff_search_state_v1';
+        var TTL_MS = 30 * 24 * 60 * 60 * 1000; // one month
+
+        var MAIN_INPUTS = [
+            '#txt_mineral',
+            '#txt_tag_ids',
+            '#txt_chemistry_incl',
+            '#txt_chemistry_excl',
+            '#txt_general'
+        ];
+
+        function parseSelectedNames(raw) {
+            var out = [];
+            if (!raw) return out;
+            var re = /"([^"]+)"/g;
+            var m;
+            while ((m = re.exec(raw)) !== null) out.push(m[1]);
+            if (out.length === 0) {
+                raw.split(',').forEach(function (part) {
+                    var t = part.trim().replace(/^"|"$/g, '');
+                    if (t.length) out.push(t);
+                });
+            }
+            return out;
+        }
+
+        function syncMineralSelection() {
+            var raw = $('#txt_mineral').val() || '';
+            var names = parseSelectedNames(raw).map(function (n) { return n.toLowerCase(); });
+            $('.AMCSDMineralName').each(function () {
+                var label = $(this).html();
+                if (label && names.indexOf(String(label).toLowerCase()) !== -1) {
+                    $(this).addClass('AMCSDMineralNameSelected');
+                } else {
+                    $(this).removeClass('AMCSDMineralNameSelected');
+                }
+            });
+        }
+
+        function capturePeriodicTable() {
+            var state = {};
+            $('.periodic_table').each(function () {
+                var id = this.id;
+                if (!id) return;
+                var classes = [];
+                if ($(this).hasClass('included')) classes.push('included');
+                if ($(this).hasClass('excluded')) classes.push('excluded');
+                if (classes.length) state[id] = classes;
+            });
+            return state;
+        }
+
+        function restorePeriodicTable(state) {
+            if (!state) return;
+            $('.periodic_table').removeClass('included excluded');
+            for (var id in state) {
+                if (!state.hasOwnProperty(id)) continue;
+                var $el = $('#' + id);
+                if (!$el.length) continue;
+                state[id].forEach(function (cls) { $el.addClass(cls); });
+            }
+            if (typeof setChemistryFields === 'function') {
+                try { setChemistryFields(); } catch (e) {}
+            }
+        }
+
+        function captureState() {
+            var state = { ts: Date.now(), main: {} };
+            MAIN_INPUTS.forEach(function (sel) {
+                var $el = $(sel);
+                if ($el.length) state.main[sel] = $el.val();
+            });
+            state.periodic = capturePeriodicTable();
+            return state;
+        }
+
+        function applyState(state) {
+            if (!state) return;
+            MAIN_INPUTS.forEach(function (sel) {
+                if (state.main && typeof state.main[sel] !== 'undefined') {
+                    $(sel).val(state.main[sel]);
+                }
+            });
+            restorePeriodicTable(state.periodic);
+            syncMineralSelection();
+
+            // If the restored search used chemistry inclusions/exclusions or
+            // had periodic-table elements selected, expand the periodic table
+            // panel so the user sees the saved chemistry state immediately.
+            var hasChem = ($('#txt_chemistry_incl').val() || '').trim().length > 0
+                       || ($('#txt_chemistry_excl').val() || '').trim().length > 0;
+            var hasPeriodic = state.periodic && Object.keys(state.periodic).length > 0;
+            if (hasChem || hasPeriodic) {
+                $('#div_periodic_table').slideDown('100');
+            }
+        }
+
+        function saveState() {
+            try {
+                sessionStorage.setItem(STORAGE_KEY, JSON.stringify(captureState()));
+            } catch (e) {
+                if (window.console && console.warn) {
+                    console.warn('RRUFF: could not save form state', e);
+                }
+            }
+        }
+
+        function loadState() {
+            try {
+                var raw = sessionStorage.getItem(STORAGE_KEY);
+                if (!raw) return;
+                var state = JSON.parse(raw);
+                if (!state || !state.ts) return;
+                if (Date.now() - state.ts > TTL_MS) {
+                    sessionStorage.removeItem(STORAGE_KEY);
+                    return;
+                }
+                applyState(state);
+            } catch (e) {
+                if (window.console && console.warn) {
+                    console.warn('RRUFF: could not load form state', e);
+                }
+            }
+        }
+
+        function wireListeners() {
+            // Persist only when the user actually runs a search.
+            // The existing search-submit handler does `return false`, which in
+            // jQuery stops propagation — so a delegated $(document).on('click')
+            // listener would never fire. Use a native capture-phase listener
+            // on document instead, which runs BEFORE any target-phase handlers
+            // and is unaffected by jQuery's stopPropagation.
+            document.addEventListener('click', function (e) {
+                var t = e.target;
+                if (t && (t.id === 'rruff-search-form-submit'
+                    || (t.closest && t.closest('#rruff-search-form-submit')))) {
+                    saveState();
+                }
+                if (t && (t.id === 'reset_sample_search'
+                    || (t.closest && t.closest('#reset_sample_search')))) {
+                    try { sessionStorage.removeItem(STORAGE_KEY); } catch (err) {}
+                    $('#div_periodic_table').slideUp('100');
+                    setTimeout(syncMineralSelection, 0);
+                }
+            }, true);
+
+            // Refresh bold-highlight on already-selected entries when the
+            // mineral modal opens, after restore, or after manual edits.
+            $(document).on('click', 'a[href="#ODRMineralList"]', function () {
+                setTimeout(syncMineralSelection, 0);
+            });
+            $(document).on('input change', '#txt_mineral', syncMineralSelection);
+        }
+
+        $(wireListeners);
+
+        // Defer restore to after window.load + a tick so any other
+        // window.load handlers (e.g. URL-hash parsing) finish first.
+        $(window).on('load', function () {
+            setTimeout(loadState, 50);
+        });
+    })(jQuery);
+</script>
