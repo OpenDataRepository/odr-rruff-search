@@ -576,6 +576,18 @@
                 }
             }, true);
 
+            // Enter inside any form input also submits via submitSearchForm()
+            // — without a click event — so the click listener above misses
+            // those submissions and sessionStorage retains the previous
+            // saved state. Catch Enter here in capture phase too.
+            document.addEventListener('keydown', function (e) {
+                if (e.key !== 'Enter' && e.which !== 13) return;
+                var t = e.target;
+                if (t && t.closest && t.closest('#rruff-search-form-wrapper')) {
+                    saveState();
+                }
+            }, true);
+
             // Refresh bold-highlight on already-selected entries when the
             // mineral modal opens, after restore, or after manual edits.
             $(document).on('click', 'a[href="#ODRMineralList"]', function () {
