@@ -27,12 +27,24 @@
 
 <script type="text/javascript">
     // Declare variables for Search JS
-    let datatype_id = "<?php echo $odr_rruff_search_vars['datatype_id']; ?>";
-    let general_search = "<?php echo $odr_rruff_search_vars['general_search']; ?>";
-    let chemistry_incl = "<?php echo $odr_rruff_search_vars['chemistry_incl']; ?>";
-    let mineral_name = "<?php echo $odr_rruff_search_vars['mineral_name']; ?>";
-    let sample_id = "<?php echo $odr_rruff_search_vars['sample_id']; ?>";
-    let redirect_url = "<?php echo $odr_rruff_search_vars['redirect_url']; ?>";
+    <?php
+        // Config comes from the plugin's admin settings (Settings -> ODR Search).
+        // Any field left blank in the admin falls back to the shortcode attribute
+        // default so the search still works before it's configured.
+        $_o = is_array($odr_rruff_search_plugin_options) ? $odr_rruff_search_plugin_options : array();
+        $cfg = array();
+        foreach (array('datatype_id','general_search','chemistry_incl','mineral_name','sample_id','redirect_url') as $_k) {
+            $cfg[$_k] = (isset($_o[$_k]) && $_o[$_k] !== '')
+                ? $_o[$_k]
+                : (isset($odr_rruff_search_vars[$_k]) ? $odr_rruff_search_vars[$_k] : '');
+        }
+    ?>
+    let datatype_id = "<?php echo esc_js($cfg['datatype_id']); ?>";
+    let general_search = "<?php echo esc_js($cfg['general_search']); ?>";
+    let chemistry_incl = "<?php echo esc_js($cfg['chemistry_incl']); ?>";
+    let mineral_name = "<?php echo esc_js($cfg['mineral_name']); ?>";
+    let sample_id = "<?php echo esc_js($cfg['sample_id']); ?>";
+    let redirect_url = "<?php echo esc_js($cfg['redirect_url']); ?>";
 </script>
 
 

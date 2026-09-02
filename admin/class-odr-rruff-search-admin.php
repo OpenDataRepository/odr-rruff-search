@@ -89,6 +89,112 @@ class Odr_Rruff_Search_Admin {
 		);
 
 		add_settings_field(
+			'odr_rruff_search_datatype_id',
+			'Datatype ID (numeric)',
+			array( $this, 'odr_rruff_search_datatype_id' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_general_search',
+			'General Search (gen)',
+			array( $this, 'odr_rruff_search_general_search' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_chemistry_incl',
+			'Chemistry Incl Field',
+			array( $this, 'odr_rruff_search_chemistry_incl' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_mineral_name',
+			'Mineral Name Field',
+			array( $this, 'odr_rruff_search_mineral_name' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_rruff_id',
+			'RRUFF ID Field',
+			array( $this, 'odr_rruff_search_rruff_id' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_sample_id',
+			'Sample ID Field',
+			array( $this, 'odr_rruff_search_sample_id' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_redirect_url',
+			'Redirect URL',
+			array( $this, 'odr_rruff_search_redirect_url' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_default_search',
+			'Default Search Theme ID',
+			array( $this, 'odr_rruff_search_default_search' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_search_pictures',
+			'Picture Search Theme ID',
+			array( $this, 'odr_rruff_search_search_pictures' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_search_spectra',
+			'Spectra Search Theme ID',
+			array( $this, 'odr_rruff_search_search_spectra' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_sort_name_field',
+			'Sort by Mineral Name Field ID',
+			array( $this, 'odr_rruff_search_sort_name_field' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_sort_rruff_id_field',
+			'Sort by RRUFF ID Field ID',
+			array( $this, 'odr_rruff_search_sort_rruff_id_field' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_sort_ideal_chemistry_field',
+			'Sort by Ideal Chemistry Field ID',
+			array( $this, 'odr_rruff_search_sort_ideal_chemistry_field' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_sort_source_field',
+			'Sort by Source Field ID',
+			array( $this, 'odr_rruff_search_sort_source_field' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+		add_settings_field(
+			'odr_rruff_search_sort_locality_field',
+			'Sort by Locality Field ID',
+			array( $this, 'odr_rruff_search_sort_locality_field' ),
+			$this->plugin_name,
+			'field_settings'
+		);
+
+		add_settings_field(
 			'odr_rruff_search_help_text',
 			'Search Help Text',
 			array($this, 'odr_rruff_search_help_text'),
@@ -115,6 +221,67 @@ class Odr_Rruff_Search_Admin {
 			'quicktags' => true,
 		);
 		wp_editor($content, $editor_id, $settings);
+	}
+
+	function odr_rruff_search_datatype_id() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_datatype_id' name='odr_rruff_search_plugin_options[datatype_id]' type='text' value='" . esc_attr( $options['datatype_id'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_general_search() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_general_search' name='odr_rruff_search_plugin_options[general_search]' type='text' value='" . esc_attr( $options['general_search'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_chemistry_incl() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_chemistry_incl' name='odr_rruff_search_plugin_options[chemistry_incl]' type='text' value='" . esc_attr( $options['chemistry_incl'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_mineral_name() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_mineral_name' name='odr_rruff_search_plugin_options[mineral_name]' type='text' value='" . esc_attr( $options['mineral_name'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_rruff_id() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_rruff_id' name='odr_rruff_search_plugin_options[rruff_id]' type='text' value='" . esc_attr( $options['rruff_id'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_sample_id() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_sample_id' name='odr_rruff_search_plugin_options[sample_id]' type='text' value='" . esc_attr( $options['sample_id'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_redirect_url() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_redirect_url' name='odr_rruff_search_plugin_options[redirect_url]' type='text' value='" . esc_attr( $options['redirect_url'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_default_search() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_default_search' name='odr_rruff_search_plugin_options[default_search]' type='text' value='" . esc_attr( $options['default_search'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_search_pictures() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_search_pictures' name='odr_rruff_search_plugin_options[search_pictures]' type='text' value='" . esc_attr( $options['search_pictures'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_search_spectra() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_search_spectra' name='odr_rruff_search_plugin_options[search_spectra]' type='text' value='" . esc_attr( $options['search_spectra'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_sort_name_field() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_sort_name_field' name='odr_rruff_search_plugin_options[sort_name_field]' type='text' value='" . esc_attr( $options['sort_name_field'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_sort_rruff_id_field() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_sort_rruff_id_field' name='odr_rruff_search_plugin_options[sort_rruff_id_field]' type='text' value='" . esc_attr( $options['sort_rruff_id_field'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_sort_ideal_chemistry_field() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_sort_ideal_chemistry_field' name='odr_rruff_search_plugin_options[sort_ideal_chemistry_field]' type='text' value='" . esc_attr( $options['sort_ideal_chemistry_field'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_sort_source_field() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_sort_source_field' name='odr_rruff_search_plugin_options[sort_source_field]' type='text' value='" . esc_attr( $options['sort_source_field'] ?? '' ) . "' />";
+	}
+	function odr_rruff_search_sort_locality_field() {
+		$options = get_option( 'odr_rruff_search_plugin_options' );
+		echo "<input id='odr_rruff_search_sort_locality_field' name='odr_rruff_search_plugin_options[sort_locality_field]' type='text' value='" . esc_attr( $options['sort_locality_field'] ?? '' ) . "' />";
 	}
 
 	/**
