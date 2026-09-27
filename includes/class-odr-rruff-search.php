@@ -112,6 +112,11 @@ class Odr_Rruff_Search {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-odr-rruff-search-i18n.php';
 
 		/**
+		 * Look and feel settings shared by the admin and public sides.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-odr-rruff-search-appearance.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-odr-rruff-search-admin.php';

@@ -190,6 +190,9 @@ let cellparams = [];
 				$("#chemistry_excl_txt").val('');
 				$("#txt_chemistry_incl").val('');
 				$("#txt_chemistry_excl").val('');
+				$(".odr-sf-input").each(function () {
+					$(this).val($(this).prop('multiple') ? [] : '');
+				});
 				$("#sel_sort").val($("#sel_sort option:first").val());
 				$("#sel_sort_dir").val($("#sel_sort_dir option:first").val());
 				$('.periodic_table').removeClass('included');
@@ -260,91 +263,69 @@ let cellparams = [];
 	});
 
 	function submitSearchForm() {
-		// UnicodeDecodeB64("JUUyJTlDJTkzJTIwJUMzJUEwJTIwbGElMjBtb2Rl"); // "✓ à la mode"
-		// Get mineral names or RRUFF IDS from txt_mineral
-		let search_json = {}
+		let config = window.odr_rruff_search_config || {};
+		let search_json = {};
 
-        if($("#txt_mineral").val().trim().match(/^R\d+$/i)) {
-			// display specific mineral id
-			// {"dt_id":"3","34":"r040034"}
-			search_json[sample_id] = $("#txt_mineral").val().trim();
-		}
-		else if($("#txt_mineral").val().trim() !== '') {
-			// Check for commas (separated minerals)
-			// search for IMA Mineral Display Name
-			// {"dt_id":"3","18":"actinolite"}
-			search_json[mineral_name] = $("#txt_mineral").val().trim();
-		}
+		// Each configured row adds its value under its ODR field id
+		$('#rruff-search-form .odr-search-row').each(function () {
+			let $row = $(this);
+			let type = $row.attr('data-type');
+			let field_id = $row.attr('data-field-id');
 
-		// Get General Text search field
-		if($("#txt_general").val().trim() !== '') {
-			// {"dt_id":"3","gen":"quartz"}
-			search_json[general_search] = $("#txt_general").val().trim();
-		}
-
-		// Get chemistry includes
-		if($("#txt_chemistry_incl").val()) {
-			// {"dt_id":"3","21":"C"}
-			search_json[chemistry_incl] = $("#txt_chemistry_incl").val().trim().replaceAll(/,/g,' ');
-		}
-
-		// Get chemistry excludes
-		if($("#txt_chemistry_excl").val()) {
-			// {"dt_id":"3","21":"!Ni"}
-			// {"dt_id":"3","21":"!Ni,!O"}
-			if(search_json[chemistry_incl]) {
-				search_json[chemistry_incl] += ' ';
-				$("#txt_chemistry_excl").val().split(/,/).forEach(
-					function(item) {
-						search_json[chemistry_incl] += '!' + item.trim() + ' ';
-					}
-				);
+			if (type === 'rruff_mineral' || type === 'ima_mineral') {
+				let mineral = ($('#txt_mineral').val() || '').trim();
+				if (mineral === '')
+					return;
+				// A RRUFF ID (e.g. R040034) searches the RRUFF ID field instead
+				if (type === 'rruff_mineral' && mineral.match(/^R\d+$/i))
+					search_json[$row.attr('data-sample-field-id')] = mineral;
+				else
+					search_json[field_id] = mineral;
+			}
+			else if (type === 'general') {
+				let general = ($('#txt_general').val() || '').trim();
+				if (general !== '')
+					search_json['gen'] = general;
+			}
+			else if (type === 'chemistry') {
+				// Includes are space-separated elements, excludes are prefixed with "!"
+				let terms = [];
+				($('#txt_chemistry_incl').val() || '').split(',').forEach(function (item) {
+					if (item.trim() !== '')
+						terms.push(item.trim());
+				});
+				($('#txt_chemistry_excl').val() || '').split(',').forEach(function (item) {
+					if (item.trim() !== '')
+						terms.push('!' + item.trim());
+				});
+				if (terms.length)
+					search_json[field_id] = terms.join(' ');
 			}
 			else {
-				$("#txt_chemistry_excl").val().split(/,/).forEach(
-					function(item) {
-						search_json[chemistry_incl] += '!' + item.trim() + ' ';
-					}
-				);
+				let value = $row.find('.odr-sf-input').val();
+				// Option selects send their radio option ids, comma-separated
+				if (Array.isArray(value))
+					value = value.join(',');
+				value = (value || '').trim();
+				if (value !== '')
+					search_json[field_id] = value;
 			}
+		});
+
+		search_json.dt_id = config.datatype_id;
+		if (
+			$('#sel_sort').find(':selected').val()
+			&& $('#sel_sort_dir').find(':selected').val()
+		) {
+			search_json['sort_by'] = [{
+				'sort_df_id': $('#sel_sort').find(':selected').val(),
+				'sort_dir': $('#sel_sort_dir').find(':selected').val()
+			}];
 		}
 
-        /*
-            $criteria['sort_by'] = array(
-                      'sort_dir' => $sort_dir,
-                      'sort_df_id' => $sort_df_id
-                  );
-         */
-        search_json.dt_id = datatype_id;
-        // Get sort
-        if(
-            $('#sel_sort').find(':selected').val()
-            && $('#sel_sort_dir').find(':selected').val()
-        ) {
-            search_json['sort_by'] = []
-            search_json['sort_by'][0] = { };
-            search_json['sort_by'][0]['sort_df_id'] = $('#sel_sort').find(':selected').val();
-            search_json['sort_by'][0]['sort_dir'] = $('#sel_sort_dir').find(':selected').val();
-        }
-
-        // console.log("SJ", search_json);
-
-        // alert(JSON.stringify(search_json));return false;
-
-        // Encode to base 64 - atob()
-	    let search_string = b64EncodeUnicode(JSON.stringify(search_json)); // "JUUyJTlDJTkzJTIwJUMzJUEwJTIwbGElMjBtb2Rl"
-		search_string = search_string.replace(/==$/, '');
-		search_string = search_string.replace(/=$/, '');
-		// https://beta.rruff.net/odr/rruff_samples#/odr/search/display/7/eyJkdF9pZCI6IjMifQ/1
-		if(redirect_url === '/odr/network') {
-			console.log("redirect_url network", redirect_url);
-			window.location = redirect_url, true
-		}
-		else {
-			let redirect =  redirect_url + "/" + search_string;
-			console.log("redirect_url general", redirect_url);
-			window.location = redirect, true
-		}
+		let search_string = b64EncodeUnicode(JSON.stringify(search_json));
+		window.location = config.odr_path + '/' + (config.search_slug || '') +
+			'#' + config.odr_path + '/search/display/' + (config.theme_id || 0) + '/' + search_string;
 	}
 
 	function setInclExcl(obj) {

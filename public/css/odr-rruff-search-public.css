@@ -42,17 +42,15 @@ table.search_form {
     padding-left: 20px;
     padding-top: 0;
     position: relative;
-    background-color: rgba(82, 171, 117, 1.0);
-    color:rgb(255,255,255);
+    background-color: var(--odr-search-button-bg, #52ab75);
+    color: var(--odr-search-button-text, #ffffff);
     text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 6px;
 
 
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+    border-radius: var(--odr-search-button-radius, 5px);
     text-shadow:0px 1px 0px rgba(0,0,0,0.5);
     -ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ff123852,Positive=true)";zoom:1;
     filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ff123852,Positive=true);
@@ -70,7 +68,7 @@ table.search_form {
 
 #rruff-search-form input[type=button]:disabled,
 #rruff-search-form input[type=submit]:disabled {
-    background-color: rgba(82, 171, 117, 0.4);
+    background-color: color-mix(in srgb, var(--odr-search-button-bg, #52ab75) 40%, transparent);
 }
 
 .rruff-search-form-section {
@@ -112,10 +110,10 @@ Search Form Definitions
 ************************************/
 #rruff-search-form {
     padding: 12px 12px 12px 12px !important;
-    background-color: RGBA(60, 110, 153, 1.00) !important;
+    background-color: var(--odr-search-form-bg, #3c6e99) !important;
     border: none !important;
-    color: #ffffff !important;
-    border-radius: 18px !important;
+    color: var(--odr-search-text, #ffffff) !important;
+    border-radius: var(--odr-search-form-radius, 18px) !important;
     min-width: 600px !important;
     width: 80% !important;
     margin-left: auto !important;
@@ -125,7 +123,7 @@ Search Form Definitions
 
 
 #rruff-search-form label {
-    color: white !important;
+    color: var(--odr-search-text, #ffffff) !important;
     font-weight: bold !important;
     font-size: 16px !important;
 }
@@ -151,7 +149,16 @@ Search Form Definitions
     font-weight: 400 !important;
     height: 32px !important;
     line-height: 36px !important;
-    border-radius: 4px !important;
+    background-color: var(--odr-search-input-bg, #ffffff) !important;
+    color: var(--odr-search-input-text, #475569) !important;
+    border-color: var(--odr-search-input-border, #d1d5db) !important;
+    border-radius: var(--odr-search-input-radius, 4px) !important;
+}
+
+/* Option lists for fields that allow several selections */
+#rruff-search-form select[multiple] {
+    height: auto !important;
+    line-height: normal !important;
 }
 
 #rruff-search-form .section-labels {
@@ -172,12 +179,13 @@ a.chemistry_lookup_link:active,
 a.chemistry_lookup_link:visited,
 a.chemistry_lookup_link:hover,
 a.chemistry_lookup_link {
-    font-family: Roboto, serif;
+    /* Same type as the plain labels; only the underline sets links apart */
+    font-family: inherit !important;
     cursor: pointer;
-    color: white !important;
+    color: var(--odr-search-link, #ffffff) !important;
     text-decoration: underline;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 16px !important;
+    font-weight: bold !important;
     line-height: 32px;
     display: block;
 }

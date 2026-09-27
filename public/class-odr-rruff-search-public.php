@@ -23,6 +23,12 @@
 class Odr_Rruff_Search_Public {
 
 	/**
+	 * Site path where ODR pages are served (search results open under it).
+	 */
+	const ODR_PATH = '/odr';
+
+
+	/**
 	 * The ID of this plugin.
 	 *
 	 * @since    1.0.0
@@ -117,20 +123,6 @@ class Odr_Rruff_Search_Public {
      * Include the HTML and output it to the screen
      */
 	public function odr_render_html($attributes = [], $content = null, $tag = '') {
-
-        $attributes = array_change_key_case( (array) $attributes, CASE_LOWER );
-
-        // override default attributes with user attributes
-        $odr_rruff_search_vars = shortcode_atts(
-            array(
-                'redirect_url' => '/odr/rruff_sample#/odr/search/display/7',
-                'datatype_id' => "77",
-                'general_search' => "gen",
-                'chemistry_incl' => "199",
-                'mineral_name' => "18",
-                'sample_id' => "34"
-            ), $attributes, $tag
-        );
 
         wp_enqueue_script( $this->plugin_name . '-js');
         wp_enqueue_script( $this->plugin_name . '-modal-js');

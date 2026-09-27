@@ -1,4 +1,306 @@
 /**
- * All of the CSS for your admin-specific functionality should be
- * included in this file.
+ * Search and Sort builders on the plugin settings page.
  */
+.odr-builder {
+	max-width: 820px;
+}
+
+.odr-builder .odr-rows {
+	margin: 0 0 8px;
+	padding: 0;
+	list-style: none;
+}
+
+.odr-builder .odr-row,
+.odr-builder .odr-empty {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	margin: 0 0 6px;
+	padding: 10px 12px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+}
+
+.odr-builder .odr-empty {
+	color: #646970;
+	font-style: italic;
+	border-style: dashed;
+}
+
+.odr-builder .odr-row-missing {
+	border-color: #d63638;
+	background: #fcf0f1;
+}
+
+.odr-builder .odr-row-placeholder {
+	height: 56px;
+	margin: 0 0 6px;
+	border: 2px dashed #72aee6;
+	border-radius: 4px;
+	background: #f0f6fc;
+}
+
+.odr-builder .odr-handle {
+	flex: none;
+	margin-top: 4px;
+	color: #8c8f94;
+	cursor: move;
+}
+
+.odr-builder .odr-row-body {
+	flex: 1;
+	min-width: 0;
+}
+
+.odr-builder .odr-remove {
+	flex: none;
+	color: #8c8f94;
+	cursor: pointer;
+}
+
+.odr-builder .odr-remove:hover {
+	color: #d63638;
+}
+
+.odr-builder .odr-row-meta {
+	margin-top: 6px;
+	color: #646970;
+	font-size: 12px;
+}
+
+/* Mock of the public form row: label on the left, entry on the right. */
+.odr-builder .odr-mock {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: 4px 16px;
+}
+
+.odr-builder .odr-mock-label {
+	flex: 0 0 180px;
+	padding-top: 5px;
+	font-weight: 600;
+	text-align: right;
+}
+
+.odr-builder .odr-mock-input {
+	flex: 1 1 260px;
+}
+
+.odr-builder .odr-mock-text,
+.odr-builder .odr-mock-select {
+	width: 100%;
+	max-width: 100%;
+}
+
+.odr-builder .odr-mock-inline {
+	width: auto;
+}
+
+.odr-builder .odr-mock-sub {
+	display: block;
+	margin: 4px 0 2px;
+	font-size: 12px;
+}
+
+.odr-builder .odr-mock-link {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.odr-builder .odr-mock-periodic {
+	margin-top: 6px;
+	padding: 8px;
+	background: #f6f7f7;
+	border: 1px dashed #c3c4c7;
+	font-size: 12px;
+}
+
+.odr-builder .odr-sort-name {
+	font-weight: 600;
+}
+
+.odr-builder .odr-default-badge {
+	margin-left: 6px;
+	padding: 1px 6px;
+	border-radius: 8px;
+	background: #f0f6fc;
+	color: #2271b1;
+	font-size: 11px;
+	font-weight: 400;
+}
+
+.odr-builder .odr-sort-preview {
+	margin: 0 0 10px;
+	padding: 10px 12px;
+	background: #f6f7f7;
+	border-radius: 4px;
+}
+
+.odr-builder .odr-add-button,
+.odr-builder .odr-type-choice {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+/* WordPress's admin CSS sets a taller line-height on button icons (loaded after
+   this file, same specificity), which drops the glyph below center */
+.wp-core-ui .odr-builder .button .dashicons {
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	font-size: 18px;
+	line-height: 18px !important;
+	vertical-align: middle;
+}
+
+.odr-builder .odr-picker {
+	padding: 12px;
+	background: #fff;
+	border: 1px solid #72aee6;
+	border-radius: 4px;
+}
+
+.odr-builder .odr-type-choices {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 8px;
+}
+
+
+.odr-builder .odr-picker select {
+	max-width: 100%;
+}
+
+@media (max-width: 782px) {
+	.odr-builder .odr-mock-label {
+		flex-basis: 100%;
+		text-align: left;
+	}
+}
+
+/* Appearance section: controls on the left, live preview on the right. */
+.odr-appearance {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: 24px;
+	max-width: 1000px;
+}
+
+.odr-appearance-controls {
+	flex: 1 1 380px;
+}
+
+.odr-appearance fieldset {
+	margin: 0 0 12px;
+	padding: 8px 12px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+}
+
+.odr-appearance legend {
+	padding: 0 4px;
+	font-weight: 600;
+}
+
+.odr-appearance .odr-appearance-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 6px 0;
+}
+
+.odr-appearance .odr-appearance-row > label {
+	flex: 0 0 180px;
+}
+
+.odr-appearance .wp-picker-container .wp-picker-holder {
+	position: absolute;
+	z-index: 100;
+}
+
+.odr-appearance-radius {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.odr-appearance-radius input[type=range] {
+	width: 140px;
+}
+
+.odr-appearance-preview-wrap {
+	flex: 1 1 380px;
+	position: sticky;
+	top: 48px;
+}
+
+/* Mirrors the public form rules in public/css/odr-rruff-search-public.css */
+.odr-appearance-preview {
+	margin-top: 8px;
+	padding: 16px 12px 8px;
+	background-color: var(--odr-search-form-bg, #3c6e99);
+	color: var(--odr-search-text, #ffffff);
+	border-radius: var(--odr-search-form-radius, 18px);
+}
+
+.odr-appearance-preview .odr-preview-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 12px;
+}
+
+.odr-appearance-preview .odr-preview-label {
+	flex: 0 0 90px;
+	font-size: 15px;
+	font-weight: 600;
+	text-align: right;
+}
+
+.odr-appearance-preview .odr-preview-label a {
+	color: var(--odr-search-link, #ffffff);
+	text-decoration: underline;
+	cursor: default;
+}
+
+.odr-appearance-preview input[type=text],
+.odr-appearance-preview select {
+	flex: 1;
+	min-width: 0;
+	height: 32px;
+	padding: 4px;
+	font-size: 15px;
+	background-color: var(--odr-search-input-bg, #ffffff);
+	color: var(--odr-search-input-text, #475569);
+	border: 1px solid var(--odr-search-input-border, #d1d5db);
+	border-radius: var(--odr-search-input-radius, 4px);
+	box-shadow: none;
+}
+
+.odr-appearance-preview select {
+	min-height: 32px;
+	padding: 0 24px 0 6px;
+	line-height: 30px;
+}
+
+.odr-appearance-preview button {
+	height: 32px;
+	margin-right: 6px;
+	padding: 0 20px;
+	background-color: var(--odr-search-button-bg, #52ab75);
+	color: var(--odr-search-button-text, #ffffff);
+	border: none;
+	border-radius: var(--odr-search-button-radius, 5px);
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+	cursor: default;
+}

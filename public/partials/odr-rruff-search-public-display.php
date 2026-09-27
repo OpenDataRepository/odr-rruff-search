@@ -3,7 +3,8 @@
 /**
  * Provide a public-facing view for the plugin
  *
- * This file is used to markup the public-facing aspects of the plugin.
+ * The search rows and sort options come from the plugin settings (ODR RRUFF
+ * Search in wp-admin), built with the Search and Sort builders.
  *
  * @link       https://opendatarepository.org
  * @since      1.0.0
@@ -12,45 +13,50 @@
  * @subpackage Odr_Rruff_Search/public/partials
  */
 
-/*
-    datatype_id = "3"
-    general_search = "gen"
-    chemistry_incl = "21"
-    mineral_name = "18"
-    sample_id = "34"
-    redirect_url = "/odr/rruff_samples#/odr/search/display/7"
-*/
+$_o = is_array($odr_rruff_search_plugin_options) ? $odr_rruff_search_plugin_options : array();
+$search_fields = isset($_o['search_fields']) && is_array($_o['search_fields']) ? array_values($_o['search_fields']) : array();
+$sort_fields = isset($_o['sort_fields']) && is_array($_o['sort_fields']) ? array_values($_o['sort_fields']) : array();
+
+$has_chemistry = false;
+$has_mineral = false;
+foreach ($search_fields as $sf) {
+    if ($sf['type'] === 'chemistry')
+        $has_chemistry = true;
+    if ($sf['type'] === 'rruff_mineral' || $sf['type'] === 'ima_mineral')
+        $has_mineral = true;
+}
+
+// Results open at <odr_path>/<search_slug>#<odr_path>/search/display/<theme_id>/<search_key>;
+// theme id 0 lets ODR use the database's preferred search results theme.
+$odr_search_config = array(
+    'datatype_id' => isset($_o['datatype_id']) ? $_o['datatype_id'] : '',
+    'search_slug' => isset($_o['search_slug']) ? $_o['search_slug'] : '',
+    'odr_path'    => Odr_Rruff_Search_Public::ODR_PATH,
+    'theme_id'    => 0,
+);
 
 ?>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <script type="text/javascript">
-    // Declare variables for Search JS
-    <?php
-        // Config comes from the plugin's admin settings (Settings -> ODR Search).
-        // Any field left blank in the admin falls back to the shortcode attribute
-        // default so the search still works before it's configured.
-        $_o = is_array($odr_rruff_search_plugin_options) ? $odr_rruff_search_plugin_options : array();
-        $cfg = array();
-        foreach (array('datatype_id','general_search','chemistry_incl','mineral_name','sample_id','redirect_url') as $_k) {
-            $cfg[$_k] = (isset($_o[$_k]) && $_o[$_k] !== '')
-                ? $_o[$_k]
-                : (isset($odr_rruff_search_vars[$_k]) ? $odr_rruff_search_vars[$_k] : '');
-        }
-    ?>
-    let datatype_id = "<?php echo esc_js($cfg['datatype_id']); ?>";
-    let general_search = "<?php echo esc_js($cfg['general_search']); ?>";
-    let chemistry_incl = "<?php echo esc_js($cfg['chemistry_incl']); ?>";
-    let mineral_name = "<?php echo esc_js($cfg['mineral_name']); ?>";
-    let sample_id = "<?php echo esc_js($cfg['sample_id']); ?>";
-    let redirect_url = "<?php echo esc_js($cfg['redirect_url']); ?>";
+    var odr_rruff_search_config = <?php echo wp_json_encode($odr_search_config); ?>;
 </script>
 
 
-<form id="rruff-search-form-wrapper">
+<form id="rruff-search-form-wrapper" style="<?php echo esc_attr(Odr_Rruff_Search_Appearance::css_vars($_o)); ?>">
 <div id="rruff-search-form" class="sarch_form">
+<?php if (empty($search_fields) && current_user_can('manage_options')) { ?>
     <div class="pure-u-1">
+        <p><em>No search fields are configured yet. Add them under ODR Search in the WordPress admin.</em></p>
+    </div>
+<?php } ?>
+<?php foreach ($search_fields as $sf) {
+    $row_class = 'rruff-search-form-section pure-u-1';
+    $field_id = (string) $sf['field_id'];
+?>
+    <?php if ($sf['type'] === 'rruff_mineral' || $sf['type'] === 'ima_mineral') { ?>
+    <div class="<?php echo esc_attr($row_class); ?> odr-search-row" data-type="<?php echo esc_attr($sf['type']); ?>" data-field-id="<?php echo esc_attr($field_id); ?>"<?php if ($sf['type'] === 'rruff_mineral') { ?> data-sample-field-id="<?php echo esc_attr($sf['sample_field_id']); ?>"<?php } ?>>
         <div class="section-labels pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
             <label for="txt_mineral">
                 <a href="#ODRMineralList" rel="modal:open" class="AMCSDHelperLink">Mineral</a>
@@ -61,10 +67,10 @@
         </div>
         <input type="hidden" id="mineral_ids" name="mineral_ids" value="">
         <input type="hidden" id="txt_tag_ids" name="txt_tag_ids" value="">
-        <!-- <a class="page_link_1" href="Javascript:MM_openBrWindow('https://rruff.info/index.php/r=lookup_minerals/calling_form=frm_sample_search/name_field=txt_mineral','MineralLookup','scrollbars=yes,width=800,height=600')">lookup</a> -->
     </div>
 
-    <div class="rruff-search-form-section pure-u-1">
+    <?php } else if ($sf['type'] === 'chemistry') { ?>
+    <div class="<?php echo esc_attr($row_class); ?> odr-search-row" data-type="chemistry" data-field-id="<?php echo esc_attr($field_id); ?>">
         <div class="section-labels pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
             <a class="chemistry_lookup_link">Chemistry</a>
         </div>
@@ -82,7 +88,8 @@
         <input type="hidden" id="chemistry_excl_txt">
     </div>
 
-    <div class="rruff-search-form-section pure-u-1">
+    <?php } else if ($sf['type'] === 'general') { ?>
+    <div class="<?php echo esc_attr($row_class); ?> odr-search-row" data-type="general" data-field-id="gen">
         <div class="section-labels pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
             <label for="txt_general">General</label>
         </div>
@@ -91,15 +98,33 @@
         </div>
     </div>
 
-    <!--
-    [odr-rruff-search-display datatype_id = "738"
-    general_search = "gen"
-    chemistry_incl = "7055"
-    mineral_name = "7052"
-    sample_id = "7069"
-    redirect_url = "/odr/rruff_sample#/odr/search/display/2010"]
-    -->
+    <?php } else {
+        $input_id = 'odr_sf_' . $field_id;
+        $options = isset($sf['options']) && is_array($sf['options']) ? $sf['options'] : array();
+        $multiple = !empty($sf['multiple']);
+    ?>
+    <div class="<?php echo esc_attr($row_class); ?> odr-search-row" data-type="standard" data-field-id="<?php echo esc_attr($field_id); ?>">
+        <div class="section-labels pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
+            <label for="<?php echo esc_attr($input_id); ?>"><?php echo esc_html($sf['label']); ?></label>
+        </div>
+        <div class="pure-u-1 pure-u-md-16-24 pure-u-xl-16-24">
+        <?php if (!empty($options)) { ?>
+            <select class="pure-u-1 odr-sf-input" id="<?php echo esc_attr($input_id); ?>"<?php if ($multiple) { ?> multiple size="<?php echo esc_attr(min(max(count($options), 2), 6)); ?>"<?php } ?>>
+                <?php if (!$multiple) { ?><option value="">(any)</option><?php } ?>
+                <?php foreach ($options as $opt) { ?>
+                <option value="<?php echo esc_attr($opt['id']); ?>"><?php echo esc_html($opt['name']); ?></option>
+                <?php } ?>
+            </select>
+        <?php } else { ?>
+            <input type="text" class="pure-u-1 odr-sf-input" id="<?php echo esc_attr($input_id); ?>" value="">
+        <?php } ?>
+        </div>
+    </div>
 
+    <?php } ?>
+<?php } ?>
+
+<?php if (!empty($sort_fields)) { ?>
     <div class="rruff-search-form-section pure-u-1">
         <div class="section-labels pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
             <label for="sel_sort">Sort By</label>
@@ -107,11 +132,9 @@
         <div class="pure-u-1 pure-u-md-16-24 pure-u-xl-16-24">
             <div class="pure-u-10-24 pure-u-md-6-24 pure-u-xl-6-24">
                 <select name="sel_sort" id="sel_sort" size="1" class="pure-u-1">
-                    <option value="7052">Names</option>
-                    <option value="7069">RRUFF ID</option>
-                    <option value="7056">Ideal Chemistry</option>
-                    <option value="7071">Source</option>
-                    <option value="7075">Locality</option>
+                    <?php foreach ($sort_fields as $sort) { ?>
+                    <option value="<?php echo esc_attr($sort['field_id']); ?>"><?php echo esc_html($sort['label']); ?></option>
+                    <?php } ?>
                 </select>
             </div>
             <div class="pure-u-10-24 pure-u-md-6-24 pure-u-xl-6-24">
@@ -122,6 +145,7 @@
             </div>
         </div>
     </div>
+<?php } ?>
 
     <div class="rruff-search-form-section pure-u-1">
         <div class="pure-u-1 pure-u-md-7-24 pure-u-xl-7-24">
@@ -145,54 +169,8 @@
     </div>
 </div>
 </form>
-    <!-- <tr>
-        <td colspan="3">
-            <div id="div_display_options" style="overflow: visible;">
-                <div id="div_display_options_contents" style="padding-top: 10px;">
-                    <span class="title">Display Options</span><br>
-                    <ul>
-                        <li><input type="radio" id="display" name="display" value="default" checked="checked"> Default display - Name, RRUFF ID, Ideal Chemistry, Source, Locality.</li>
-                        <li><input type="radio" id="display" name="display" value="picture"> Display pictures with the search results (limited to 100 per page).</li>
-                        <li><input type="radio" id="display" name="display" value="raman"> Display Raman Spectra with the search results (limited to 100 per page).</li>
-                        <li><input type="checkbox" id="save_as_default" name="save_as_default" value="true"> Save these options as your default search options.</li>
-                        <li>
-                            <script type="text/javascript">
 
-                                function checkFilters(toggle) {
-                                    if(toggle.checked) {
-                                        $("unoriented_raman_filter_0").enable();
-                                        $("unoriented_raman_filter_1").enable();
-                                        $("unoriented_raman_filter_2").enable();
-                                        $("unoriented_raman_filter_3").enable();
-                                        $("unoriented_raman_filter_4").enable();
-                                    }
-                                    else {
-                                        $("unoriented_raman_filter_0").disable();
-                                        $("unoriented_raman_filter_1").disable();
-                                        $("unoriented_raman_filter_2").disable();
-                                        $("unoriented_raman_filter_3").disable();
-                                        $("unoriented_raman_filter_4").disable();
-                                    }
-                                }
-
-                            </script>
-                            <input type="checkbox" id="unoriented_raman_filter_enabled" name="unoriented_raman_filter_enabled" value="false" onclick="checkFilters(this);">
-                            Unoriented Raman Quality:&nbsp;&nbsp;&nbsp;<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="unoriented_raman_filter_checkbox" type="checkbox" id="unoriented_raman_filter_0" name="unoriented_raman_filter[]" value="2" disabled=""> Excellent&nbsp;&nbsp;&nbsp;
-                            <input class="unoriented_raman_filter_checkbox" type="checkbox" id="unoriented_raman_filter_1" name="unoriented_raman_filter[]" value="1" disabled=""> Fair&nbsp;&nbsp;&nbsp;
-                            <input class="unoriented_raman_filter_checkbox" type="checkbox" id="unoriented_raman_filter_2" name="unoriented_raman_filter[]" value="0" disabled=""> Poor&nbsp;&nbsp;&nbsp;
-                            <input class="unoriented_raman_filter_checkbox" type="checkbox" id="unoriented_raman_filter_3" name="unoriented_raman_filter[]" value="-1" disabled=""> Unrated&nbsp;&nbsp;&nbsp;
-                            <input class="unoriented_raman_filter_checkbox" type="checkbox" id="unoriented_raman_filter_4" name="unoriented_raman_filter[]" value="-2" disabled=""> Ignore&nbsp;&nbsp;&nbsp;
-                            <script type="text/javascript">
-                                checkFilters($("unoriented_raman_filter_enabled"));
-                            </script>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </td>
-    </tr> -->
-
+<?php if ($has_chemistry) { ?>
 <div id="div_periodic_table" style="overflow: visible;">
     <div id="div_periodic_table_contents">
         <table id="rruff-periodic-table">
@@ -351,7 +329,9 @@
         </table>
    </div>
 </div>
+<?php } ?>
 
+<?php if ($has_mineral) { ?>
 <div id="ODRMineralList" class="modal">
     <table>
         <tr>
@@ -431,6 +411,7 @@
         ?>
     </table>
 </div>
+<?php } ?>
 
 <script type="text/javascript">
     // ============================================================
@@ -514,6 +495,10 @@
                 var $el = $(sel);
                 if ($el.length) state.main[sel] = $el.val();
             });
+            // Configured standard fields (text inputs and option selects)
+            $('.odr-sf-input').each(function () {
+                if (this.id) state.main['#' + this.id] = $(this).val();
+            });
             state.periodic = capturePeriodicTable();
             return state;
         }
@@ -523,6 +508,12 @@
             MAIN_INPUTS.forEach(function (sel) {
                 if (state.main && typeof state.main[sel] !== 'undefined') {
                     $(sel).val(state.main[sel]);
+                }
+            });
+            $('.odr-sf-input').each(function () {
+                var sel = '#' + this.id;
+                if (this.id && state.main && typeof state.main[sel] !== 'undefined') {
+                    $(this).val(state.main[sel]);
                 }
             });
             restorePeriodicTable(state.periodic);

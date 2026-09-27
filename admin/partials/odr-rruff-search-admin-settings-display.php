@@ -11,20 +11,10 @@
  * @package    Odr_Rruff_Search
  * @subpackage Odr_Rruff_Search/admin/partials
  */
-/**
- *
- * [
- *   odr-rruff-search-display datatype_id = "738"
- *   general_search = "gen"
- *   chemistry_incl = "7055"
- *   mineral_name = "7052"
- *   sample_id = "7069"
- *   redirect_url = "/odr/rruff_sample#/odr/search/display/2010"
- * ]
- *
- */
+
 ?>
 <h2>ODR Search Plugin Settings</h2>
+<?php settings_errors( 'odr_rruff_search_plugin_options' ); ?>
 <form action="options.php" method="post">
     <?php
         settings_fields( 'odr_rruff_search_plugin_options' );
