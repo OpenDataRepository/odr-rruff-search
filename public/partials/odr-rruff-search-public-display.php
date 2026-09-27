@@ -431,7 +431,11 @@ $odr_search_config = array(
             '#txt_tag_ids',
             '#txt_chemistry_incl',
             '#txt_chemistry_excl',
-            '#txt_general'
+            '#txt_general',
+            // The sort dropdowns are part of the search too, so a restored
+            // search comes back ordered the way it was run.
+            '#sel_sort',
+            '#sel_sort_dir'
         ];
 
         function parseSelectedNames(raw) {
@@ -489,6 +493,22 @@ $odr_search_config = array(
             }
         }
 
+        /**
+         * Restores one field. For a <select>, a saved value that no longer
+         * exists (the admin changed the configured fields) would leave the
+         * dropdown showing nothing, so keep its default instead.
+         */
+        function setSavedValue($el, value) {
+            if (!$el.length) return;
+            if ($el.is('select') && !$el.prop('multiple')) {
+                var exists = $el.find('option').filter(function () {
+                    return this.value === String(value);
+                }).length > 0;
+                if (!exists) return;
+            }
+            $el.val(value);
+        }
+
         function captureState() {
             var state = { ts: Date.now(), main: {} };
             MAIN_INPUTS.forEach(function (sel) {
@@ -506,15 +526,13 @@ $odr_search_config = array(
         function applyState(state) {
             if (!state) return;
             MAIN_INPUTS.forEach(function (sel) {
-                if (state.main && typeof state.main[sel] !== 'undefined') {
-                    $(sel).val(state.main[sel]);
-                }
+                if (state.main && typeof state.main[sel] !== 'undefined')
+                    setSavedValue($(sel), state.main[sel]);
             });
             $('.odr-sf-input').each(function () {
                 var sel = '#' + this.id;
-                if (this.id && state.main && typeof state.main[sel] !== 'undefined') {
-                    $(this).val(state.main[sel]);
-                }
+                if (this.id && state.main && typeof state.main[sel] !== 'undefined')
+                    setSavedValue($(this), state.main[sel]);
             });
             restorePeriodicTable(state.periodic);
             syncMineralSelection();
